@@ -1,0 +1,134 @@
+<!doctype html>
+<!--
+THESIS: Loyalty Academy makes trust feel practiced, not promised; it refuses the usual vague self-improvement landing page.
+OWN-WORLD: A field-guide palette of ink, oat, leaf, and marigold with stamped labels, generous typography, and documentary photography.
+STORY: Visitors see the practice, try a five-question daily check-in, then create a free account to keep their momentum.
+FIRST VIEWPORT: A full-bleed Cannabis.jpg hero pairs the promise and primary action on the left with a compact “today’s practice” panel on the right.
+FORM: Editorial field guide, chosen for a landing page that teaches by showing; the daily quiz is the signature moment.
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Loyalty Academy is a daily practice for building trust, consistency, and follow-through." />
+    <title>Loyalty Academy — Practice what you stand for</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <header class="site-header">
+      <div class="shell header-inner">
+        <a class="wordmark" href="#top" aria-label="Loyalty Academy home">
+          <span class="wordmark-mark" aria-hidden="true">LA</span>
+          <span>Loyalty<br />Academy</span>
+        </a>
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+          <span class="sr-only">Toggle navigation</span><span aria-hidden="true">Menu</span>
+        </button>
+        <nav id="site-nav" class="site-nav" aria-label="Primary navigation">
+          <a href="#practice">The practice</a>
+          <a href="#quiz">Daily check-in</a>
+          <a href="#join">Join free</a>
+        </nav>
+        <a class="button button-small button-dark header-cta" href="#join">Create an account <span aria-hidden="true">↗</span></a>
+      </div>
+    </header>
+
+    <main id="main-content">
+      <section id="top" class="hero">
+        <div class="hero-image" role="img" aria-label="A close-up botanical image"></div>
+        <div class="hero-scrim" aria-hidden="true"></div>
+        <div class="shell hero-content">
+          <div class="hero-copy">
+            <p class="stamp">A daily field guide for better follow-through</p>
+            <h1>Keep your word.<br /><em>Especially to yourself.</em></h1>
+            <p class="hero-lede">Loyalty is not a personality trait. It is the small, repeatable choice to show up with care, clarity, and courage.</p>
+            <div class="hero-actions">
+              <a class="button button-light" href="#quiz">Take today’s check-in <span aria-hidden="true">↓</span></a>
+              <a class="text-link light-link" href="#practice">See how it works <span aria-hidden="true">↘</span></a>
+            </div>
+          </div>
+          <aside class="hero-note" aria-label="Today's practice">
+            <div class="note-top"><span class="dot"></span><span>Today’s practice</span><span class="note-date" id="today-date"></span></div>
+            <p>“Consistency is keeping the promise after the feeling fades.”</p>
+            <div class="note-rule"></div>
+            <a href="#quiz">Start the five-question check-in <span aria-hidden="true">→</span></a>
+          </aside>
+        </div>
+        <div class="scroll-cue" aria-hidden="true"><span></span>Scroll to practice</div>
+      </section>
+
+      <section id="practice" class="practice section">
+        <div class="shell practice-grid">
+          <div class="section-intro">
+            <p class="stamp stamp-dark">The practice</p>
+            <h2>Character is<br /><em>what repeats.</em></h2>
+            <p>We made a simple place to notice the promises you make, the boundaries you keep, and the people who count on you.</p>
+            <a class="text-link" href="#join">Build your practice <span aria-hidden="true">↗</span></a>
+          </div>
+          <div class="principles" aria-label="The three parts of the practice">
+            <article class="principle">
+              <span class="principle-mark">01</span>
+              <div><h3>Notice</h3><p>Catch the moment your values meet a real decision.</p></div>
+            </article>
+            <article class="principle">
+              <span class="principle-mark">02</span>
+              <div><h3>Choose</h3><p>Make the honest next move, even when it is not the easy one.</p></div>
+            </article>
+            <article class="principle">
+              <span class="principle-mark">03</span>
+              <div><h3>Repeat</h3><p>Let small proof, collected daily, become a reputation you can feel.</p></div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="quiz" class="quiz-section section">
+        <div class="shell">
+          <div class="quiz-header">
+            <div><p class="stamp stamp-dark">Daily check-in</p><h2>Five questions.<br /><em>One honest minute.</em></h2></div>
+            <p class="quiz-explainer">Your questions rotate every day. There is no perfect score—just a clearer starting point.</p>
+          </div>
+          <div class="quiz-layout">
+            <div class="quiz-card">
+              <div class="quiz-progress"><span id="question-count">Question 1 of 5</span><span id="progress-label">20%</span></div>
+              <div class="progress-track"><span id="progress-bar"></span></div>
+              <form id="quiz-form" novalidate>
+                <fieldset>
+                  <legend id="question-text"></legend>
+                  <div id="answer-list" class="answer-list"></div>
+                </fieldset>
+                <button id="next-question" class="button button-dark" type="submit">Lock in answer <span aria-hidden="true">→</span></button>
+              </form>
+              <div id="quiz-result" class="quiz-result" role="status" aria-live="polite" hidden></div>
+            </div>
+            <div class="quiz-aside"><span class="aside-symbol" aria-hidden="true">✳</span><p>“The quality of your life is the quality of your commitments.”</p><span class="aside-credit">— David Brooks</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="join" class="join section">
+        <div class="shell join-grid">
+          <div><p class="stamp stamp-dark">Start where you are</p><h2>Make loyalty<br /><em>a lived value.</em></h2><p class="join-copy">Create a free account to save your check-ins and get a new five-question practice each day.</p></div>
+          <div class="form-wrap">
+            <form id="account-form" class="account-form" novalidate>
+              <div class="form-field"><label for="email">Email address</label><input id="email" name="email" type="email" autocomplete="email" required /><span class="field-error" id="email-error"></span></div>
+              <div class="form-field"><label for="password">Create a password <small>8+ characters</small></label><input id="password" name="password" type="password" autocomplete="new-password" minlength="8" required /><span class="field-error" id="password-error"></span></div>
+              <div class="form-field"><label for="password-confirm">Confirm password</label><input id="password-confirm" name="password-confirm" type="password" autocomplete="new-password" required /><span class="field-error" id="confirm-error"></span></div>
+              <label class="check-row"><input id="terms" name="terms" type="checkbox" required /><span>I agree to the <a href="#join">terms of practice</a>.</span></label>
+              <p class="form-note" id="terms-error"></p>
+              <button class="button button-dark button-full" type="submit">Create my account <span aria-hidden="true">↗</span></button>
+              <p class="privacy-note">Client-side demo only. Nothing is sent or stored.</p>
+              <div id="account-success" class="account-success" role="status" aria-live="polite" hidden></div>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer"><div class="shell footer-inner"><a class="wordmark" href="#top"><span class="wordmark-mark">LA</span><span>Loyalty<br />Academy</span></a><p>Practice what you stand for.</p><p>© <span id="year"></span> Loyalty Academy</p></div></footer>
+    <script src="script.js"></script>
+  </body>
+</html>
