@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+  <title id="title">Loyalty Academy</title>
+  <desc id="desc">LA monogram in a gold field</desc>
+  <rect width="128" height="128" rx="24" fill="#294b39"/>
+  <circle cx="99" cy="29" r="14" fill="#e6b950" opacity=".95"/>
+  <path d="M24 18h80v92H24z" fill="#f2eedf" opacity=".08"/>
+  <text x="64" y="79" fill="#f2eedf" font-family="Georgia, serif" font-size="47" font-weight="700" letter-spacing="-8" text-anchor="middle">LA</text>
+  <path d="M27 96h74" stroke="#e6b950" stroke-width="4" stroke-linecap="round"/>
+</svg>
