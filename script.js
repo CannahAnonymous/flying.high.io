@@ -32,30 +32,46 @@
       button.setAttribute("aria-pressed", "true");
     });
 
-    const translations = {
-      sw: {
-        "How it works": "Jinsi inavyofanya kazi", "Browse produce": "Tazama mazao", "Join the network": "Jiunge na mtandao",
-        "Get started": "Anza sasa", "A clearer route from field to table": "Njia rahisi kutoka shambani hadi mezani",
-        "Good food should": "Chakula bora kinapaswa", "move fairly.": "kusafirishwa kwa haki.",
-        "See what’s available": "Tazama yanayopatikana", "Learn the route": "Jifunze njia",
-        "One network, three roles": "Mtandao mmoja, nafasi tatu", "Farmers": "Wakulima", "Agents": "Mawakala", "Buyers": "Wanunuzi",
-        "Browse produce": "Tazama mazao", "Join the early ShambaLink network.": "Jiunge na mtandao wa awali wa ShambaLink."
-      }
-    };
-    document.querySelectorAll(".language-button").forEach((button) => {
-      button.addEventListener("click", () => {
-        const language = button.dataset.language;
-        document.querySelectorAll(".language-button").forEach((item) => item.classList.toggle("is-active", item === button));
-        document.documentElement.lang = language === "sw" ? "sw" : "en";
-        document.querySelectorAll("a, h1, h2, h3, p, button").forEach((element) => {
-          const original = element.dataset.originalText || element.textContent;
-          element.dataset.originalText = original;
-          if (language === "sw" && translations.sw[original]) element.textContent = translations.sw[original];
-          if (language === "en" && element.dataset.originalText) element.textContent = element.dataset.originalText;
-        });
-      });
-    });
   });
+
+  const swahili = {
+    "How it works": "Jinsi inavyofanya kazi", "Browse produce": "Tazama mazao", "Join the network": "Jiunge na mtandao",
+    "Get started": "Anza sasa", "A clearer route from field to table": "Njia rahisi kutoka shambani hadi mezani",
+    "Good food should": "Chakula bora kinapaswa", "move fairly.": "kusafirishwa kwa haki.", "See what’s available": "Tazama yanayopatikana",
+    "Learn the route": "Jifunze njia", "One network, three roles": "Mtandao mmoja, nafasi tatu", "Farmers": "Wakulima", "Agents": "Mawakala",
+    "Buyers": "Wanunuzi", "Find your place": "Pata nafasi yako", "in the harvest.": "katika mavuno.", "Example market board": "Ubao wa soko",
+    "What’s moving": "Kinachosafirishwa", "this week.": "wiki hii.", "All listings": "Matangazo yote", "Farmer listings": "Matangazo ya wakulima",
+    "Agent coordinated": "Yaliyoratibiwa na wakala", "The route": "Njia", "Less guessing.": "Makisio kidogo.", "More moving.": "Usafirishaji zaidi.",
+    "Start with your role": "Anza na nafasi yako", "Put your work": "Weka kazi yako", "on the map.": "kwenye ramani.",
+    "I’m a farmer": "Mimi ni mkulima", "I’m an agent": "Mimi ni wakala", "I’m a buyer": "Mimi ni mnunuzi",
+    "Your name or business": "Jina lako au biashara", "Phone or email": "Simu au barua pepe", "Request details": "Omba maelezo",
+    "Ready now": "Tayari sasa", "Route forming": "Njia inaundwa", "New listing": "Tangazo jipya", "Ask Shamba AI": "Uliza Shamba AI",
+    "What grows in Tanzania?": "Nini hulimwa Tanzania?", "How do I list maize?": "Nitawekaje mahindi?", "Help me buy rice": "Nisaidie kununua mpunga",
+    "Copy link": "Nakili kiungo", "Save my interest": "Hifadhi nia yangu", "Language / Lugha": "Lugha / Language"
+  };
+  function translatePage(language) {
+    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+    const nodes = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode);
+    nodes.forEach((node) => {
+      const key = node.nodeValue.trim();
+      if (!key || node.parentElement.closest("script,style")) return;
+      if (!node.dataset.originalText) node.dataset.originalText = node.nodeValue;
+      const original = node.dataset.originalText.trim();
+      if (language === "sw" && swahili[original]) node.nodeValue = node.nodeValue.replace(original, swahili[original]);
+      if (language === "en") node.nodeValue = node.dataset.originalText;
+    });
+    document.querySelectorAll("input[placeholder]").forEach((input) => {
+      if (!input.dataset.originalPlaceholder) input.dataset.originalPlaceholder = input.placeholder;
+      if (language === "sw" && input.dataset.originalPlaceholder === "Search produce…") input.placeholder = "Tafuta mazao…";
+      if (language === "en") input.placeholder = input.dataset.originalPlaceholder;
+    });
+  }
+  document.querySelectorAll(".language-button").forEach((button) => button.addEventListener("click", () => {
+    document.querySelectorAll(".language-button").forEach((item) => item.classList.toggle("is-active", item === button));
+    document.documentElement.lang = button.dataset.language === "sw" ? "sw" : "en";
+    translatePage(button.dataset.language);
+  }));
 
   let selectedRole = "farmer";
   document.querySelectorAll(".role-choice").forEach((button) => {
