@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title">
+  <title>ShambaLink</title>
+  <rect width="128" height="128" rx="24" fill="#28523c"/>
+  <path d="M64 103V48M64 67C49 47 31 51 26 54c2 19 16 31 38 28M64 80c14-19 32-15 38-12-4 18-17 28-38 25" fill="none" stroke="#e8bd50" stroke-linecap="round" stroke-linejoin="round" stroke-width="7"/>
+  <path d="M35 27c0-9 7-15 15-15s14 6 14 15c0 9-7 15-14 15s-15-6-15-15Z" fill="#d95838"/>
+  <path d="M49 13c-3-7 3-11 9-9-1 5-4 8-9 9Z" fill="#8cae5f"/>
+  <path d="M78 29c0-10 6-17 14-17s13 7 13 17c0 10-6 16-13 16s-14-6-14-16Z" fill="#e8bd50"/>
+  <path d="M89 12v-6M84 11l-4-5M94 11l4-5" stroke="#8cae5f" stroke-linecap="round" stroke-width="3"/>
+</svg>
