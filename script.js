@@ -68,5 +68,27 @@
     document.querySelector("#account-success").hidden = false;
     document.querySelector("#account-success").textContent = "You’re in. Your first practice starts today.";
     accountForm.querySelector("button[type=submit]").disabled = true;
+    document.querySelector("#member-path")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+
+  document.querySelectorAll("[data-practice]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const feedback = button.parentElement.querySelector(".action-feedback");
+      button.setAttribute("aria-pressed", "true");
+      button.textContent = "Focus saved ✓";
+      if (feedback) feedback.textContent = button.dataset.practice;
+    });
+  });
+
+  const copyPrompt = document.querySelector("#copy-prompt");
+  copyPrompt?.addEventListener("click", async () => {
+    const prompt = "What would the most trustworthy version of you do next?";
+    const feedback = document.querySelector("#copy-feedback");
+    try {
+      await navigator.clipboard.writeText(prompt);
+      feedback.textContent = "Prompt copied.";
+    } catch {
+      feedback.textContent = prompt;
+    }
   });
 })();

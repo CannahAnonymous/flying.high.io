@@ -112,7 +112,7 @@ FORM: Editorial field guide, chosen for a landing page that teaches by showing; 
 
       <section id="join" class="join section">
         <div class="shell join-grid">
-          <div><p class="stamp stamp-dark">Start where you are</p><h2>Make loyalty<br /><em>a lived value.</em></h2><p class="join-copy">Create a free account to save your check-ins and get a new five-question practice each day.</p></div>
+          <div><p class="stamp stamp-dark">Start where you are</p><h2>Make loyalty<br /><em>a lived value.</em></h2><p class="join-copy">Create a free account to save your check-ins and get a new five-question practice each day.</p><p class="join-promise"><span aria-hidden="true">✳</span> Your first week is about noticing, not getting it perfect.</p></div>
           <div class="form-wrap">
             <form id="account-form" class="account-form" novalidate>
               <div class="form-field"><label for="email">Email address</label><input id="email" name="email" type="email" autocomplete="email" required /><span class="field-error" id="email-error"></span></div>
@@ -124,6 +124,48 @@ FORM: Editorial field guide, chosen for a landing page that teaches by showing; 
               <p class="privacy-note">Client-side demo only. Nothing is sent or stored.</p>
               <div id="account-success" class="account-success" role="status" aria-live="polite" hidden></div>
             </form>
+          </div>
+        </div>
+      </section>
+
+      <section id="member-path" class="member-path section">
+        <div class="shell">
+          <div class="member-heading">
+            <div><p class="stamp stamp-dark">After you join</p><h2>A practice that<br /><em>meets you there.</em></h2></div>
+            <p>Every day gives you one clear place to begin. Keep the useful parts, leave the guilt behind, and build a record of the promises you keep.</p>
+          </div>
+          <div class="member-dashboard">
+            <div class="dashboard-top">
+              <div><span class="dashboard-kicker">Your practice desk</span><h3>Good morning, future you.</h3></div>
+              <span class="streak-badge"><strong>07</strong> day streak</span>
+            </div>
+            <div class="dashboard-grid">
+              <article class="dashboard-card focus-card">
+                <span class="card-label">Today’s focus</span>
+                <span class="focus-icon" aria-hidden="true">↗</span>
+                <h4>Say the clear thing.</h4>
+                <p>Choose one conversation where a kind, direct answer is more loyal than a comfortable one.</p>
+                <button class="inline-action" type="button" data-practice="Today’s focus saved. Come back when you’ve tried it.">Mark as my focus <span aria-hidden="true">→</span></button>
+                <span class="action-feedback" role="status" aria-live="polite"></span>
+              </article>
+              <article class="dashboard-card">
+                <span class="card-label">Your rhythm</span>
+                <div class="rhythm-number"><strong>4</strong><span>check-ins<br />this week</span></div>
+                <div class="rhythm-bars" aria-label="Four check-ins this week"><span class="is-filled"></span><span class="is-filled"></span><span class="is-filled"></span><span class="is-filled"></span><span></span><span></span><span></span></div>
+                <p>Small proof adds up. You are building a pattern.</p>
+              </article>
+              <article class="dashboard-card reflection-card">
+                <span class="card-label">Weekly reflection</span>
+                <h4>What did you keep<br />when it got hard?</h4>
+                <a class="inline-action" href="#reflection">Open your reflection <span aria-hidden="true">↗</span></a>
+              </article>
+            </div>
+          </div>
+          <div id="reflection" class="reflection-strip">
+            <span class="reflection-mark" aria-hidden="true">✳</span>
+            <div><span class="card-label">A question to carry</span><p>What would the most trustworthy version of you do next?</p></div>
+            <button class="button button-dark" type="button" id="copy-prompt">Copy prompt <span aria-hidden="true">↗</span></button>
+            <span class="action-feedback" id="copy-feedback" role="status" aria-live="polite"></span>
           </div>
         </div>
       </section>
