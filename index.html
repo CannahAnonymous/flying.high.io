@@ -1,184 +1,80 @@
 <!doctype html>
 <!--
-THESIS: Loyalty Academy makes trust feel practiced, not promised; it refuses the usual vague self-improvement landing page.
-OWN-WORLD: A field-guide palette of ink, oat, leaf, and marigold with stamped labels, generous typography, and documentary photography.
-STORY: Visitors see the practice, try a five-question daily check-in, then create a free account to keep their momentum.
-FIRST VIEWPORT: A full-bleed botanical color field pairs the promise and primary action on the left with a compact “today’s practice” panel on the right.
-FORM: Editorial field guide, chosen for a landing page that teaches by showing; the daily quiz is the signature moment.
+THESIS: AgriLink makes local food supply legible and human; it refuses the opaque, broker-only marketplace.
+OWN-WORLD: Field green, seed gold, clay, and paper with crop-led photography, practical labels, and clear exchange states.
+STORY: Farmers find a fair route to market, agents coordinate the moving parts, and buyers see what is available before they commit.
+FIRST VIEWPORT: A produce field image sits behind a centered promise with three role paths and a live-looking availability panel.
+FORM: Marketplace landing page with a role-aware onboarding moment and transparent example listings.
 -->
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Loyalty Academy is a daily practice for building trust, consistency, and follow-through." />
-    <title>Loyalty Academy — Practice what you stand for</title>
+    <meta name="description" content="AgriLink connects farmers, agents, and buyers so local produce can move with clarity and care." />
+    <title>AgriLink — From field to fair market</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap" rel="stylesheet" />
-    <link rel="icon" href="la-icon.svg" type="image/svg+xml" />
-    <link rel="apple-touch-icon" href="la-icon.svg" />
+    <link rel="icon" href="agri-icon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <a class="skip-link" href="#main-content">Skip to content</a>
     <header class="site-header">
       <div class="shell header-inner">
-        <a class="wordmark" href="#top" aria-label="Loyalty Academy home">
-          <span class="wordmark-mark" aria-hidden="true">LA</span>
-          <span>Loyalty<br />Academy</span>
-        </a>
-        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
-          <span class="sr-only">Toggle navigation</span><span aria-hidden="true">Menu</span>
-        </button>
-        <nav id="site-nav" class="site-nav" aria-label="Primary navigation">
-          <a href="#practice">The practice</a>
-          <a href="#quiz">Daily check-in</a>
-          <a href="#join">Join free</a>
-        </nav>
-        <a class="button button-small button-dark header-cta" href="#join">Create an account <span aria-hidden="true">↗</span></a>
+        <a class="wordmark" href="#top" aria-label="AgriLink home"><span class="wordmark-mark" aria-hidden="true">AL</span><span>Agri<br />Link</span></a>
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav"><span class="sr-only">Toggle navigation</span><span aria-hidden="true">Menu</span></button>
+        <nav id="site-nav" class="site-nav" aria-label="Primary navigation"><a href="#how-it-works">How it works</a><a href="#market">Browse produce</a><a href="#join">Join the network</a></nav>
+        <a class="button button-small button-dark header-cta" href="#join">Get started <span aria-hidden="true">↗</span></a>
       </div>
     </header>
 
     <main id="main-content">
       <section id="top" class="hero">
-        <div class="hero-image" role="img" aria-label="A close-up botanical image"></div>
-        <div class="hero-scrim" aria-hidden="true"></div>
+        <div class="hero-image" aria-hidden="true"></div><div class="hero-scrim" aria-hidden="true"></div>
         <div class="shell hero-content">
           <div class="hero-copy hero-copy-centered">
-            <p class="stamp">A daily field guide for better follow-through</p>
-            <h1>Keep your word.<br /><em>Especially to yourself.</em></h1>
-            <p class="hero-lede">Loyalty is not a personality trait. It is the small, repeatable choice to show up with care, clarity, and courage.</p>
-            <div class="hero-actions">
-              <a class="button button-light" href="#quiz">Take today’s check-in <span aria-hidden="true">↓</span></a>
-              <a class="text-link light-link" href="#practice">See how it works <span aria-hidden="true">↘</span></a>
-            </div>
+            <p class="stamp">A clearer route from field to table</p>
+            <h1>Good food should<br /><em>move fairly.</em></h1>
+            <p class="hero-lede">AgriLink brings farmers, trusted agents, and serious buyers into one simple market—so every harvest has a better chance to reach the people who need it.</p>
+            <div class="hero-actions"><a class="button button-light" href="#market">See what’s available <span aria-hidden="true">↓</span></a><a class="text-link light-link" href="#how-it-works">Learn the route <span aria-hidden="true">↘</span></a></div>
           </div>
-          <aside class="hero-note hero-note-centered" aria-label="Today's practice">
-            <div class="note-top"><span class="dot"></span><span>Today’s practice</span><span class="note-date" id="today-date"></span></div>
-            <p>“Consistency is keeping the promise after the feeling fades.”</p>
-            <div class="note-rule"></div>
-            <a href="#quiz">Start the five-question check-in <span aria-hidden="true">→</span></a>
-          </aside>
+          <aside class="hero-note hero-note-centered" aria-label="Market snapshot"><div class="note-top"><span class="dot"></span><span>Market snapshot</span><span class="note-date">LIVE BOARD</span></div><p>Fresh harvests, clear quantities, fewer unanswered calls.</p><div class="note-rule"></div><a href="#market">Browse the example board <span aria-hidden="true">→</span></a></aside>
         </div>
-        <div class="scroll-cue" aria-hidden="true"><span></span>Scroll to practice</div>
+        <div class="scroll-cue" aria-hidden="true"><span></span>Explore the network</div>
       </section>
 
-      <section id="practice" class="practice section">
-        <div class="shell practice-grid">
-          <div class="section-intro">
-            <p class="stamp stamp-dark">The practice</p>
-            <h2>Character is<br /><em>what repeats.</em></h2>
-            <p>We made a simple place to notice the promises you make, the boundaries you keep, and the people who count on you.</p>
-            <a class="text-link" href="#join">Build your practice <span aria-hidden="true">↗</span></a>
-          </div>
-          <div class="principles" aria-label="The three parts of the practice">
-            <article class="principle">
-              <span class="principle-mark">01</span>
-              <div><h3>Notice</h3><p>Catch the moment your values meet a real decision.</p></div>
-            </article>
-            <article class="principle">
-              <span class="principle-mark">02</span>
-              <div><h3>Choose</h3><p>Make the honest next move, even when it is not the easy one.</p></div>
-            </article>
-            <article class="principle">
-              <span class="principle-mark">03</span>
-              <div><h3>Repeat</h3><p>Let small proof, collected daily, become a reputation you can feel.</p></div>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section id="quiz" class="quiz-section section">
+      <section class="roles section" aria-labelledby="role-title">
         <div class="shell">
-          <div class="quiz-header">
-            <div><p class="stamp stamp-dark">Daily check-in</p><h2>Five questions.<br /><em>One honest minute.</em></h2></div>
-            <p class="quiz-explainer">Five fresh questions each day, with no repeats until you have worked through the full bank. There is no perfect score—just a clearer starting point.</p>
-          </div>
-          <div class="quiz-layout">
-            <div class="quiz-card">
-              <div class="quiz-progress"><span id="question-count">Question 1 of 5</span><span id="progress-label">20%</span></div>
-              <div class="progress-track"><span id="progress-bar"></span></div>
-              <form id="quiz-form" novalidate>
-                <fieldset>
-                  <legend id="question-text"></legend>
-                  <div id="answer-list" class="answer-list"></div>
-                </fieldset>
-                <button id="next-question" class="button button-dark" type="submit">Lock in answer <span aria-hidden="true">→</span></button>
-              </form>
-              <div id="quiz-result" class="quiz-result" role="status" aria-live="polite" hidden></div>
-            </div>
-            <div class="quiz-aside"><span class="aside-symbol" aria-hidden="true">✳</span><p>“The quality of your life is the quality of your commitments.”</p><span class="aside-credit">— David Brooks</span></div>
+          <div class="section-heading centered"><p class="stamp stamp-dark">One network, three roles</p><h2 id="role-title">Find your place<br /><em>in the harvest.</em></h2><p>AgriLink keeps everyone close to the information they need—without making anyone speak a different language.</p></div>
+          <div class="role-grid">
+            <article class="role-card farmer-card"><span class="role-number">01</span><span class="role-icon" aria-hidden="true">✳</span><h3>Farmers</h3><p>Show what is ready, set your terms, and reach buyers beyond the gate.</p><a class="inline-action" href="#join" data-role-link="farmer">List a harvest <span aria-hidden="true">→</span></a></article>
+            <article class="role-card agent-card"><span class="role-number">02</span><span class="role-icon" aria-hidden="true">↗</span><h3>Agents</h3><p>Coordinate collection, connect the right people, and keep every promise visible.</p><a class="inline-action" href="#join" data-role-link="agent">Coordinate a route <span aria-hidden="true">→</span></a></article>
+            <article class="role-card buyer-card"><span class="role-number">03</span><span class="role-icon" aria-hidden="true">⌂</span><h3>Buyers</h3><p>Find dependable supply, compare details, and buy with confidence.</p><a class="inline-action" href="#market" data-role-link="buyer">Find produce <span aria-hidden="true">→</span></a></article>
           </div>
         </div>
       </section>
 
-      <section id="join" class="join section">
-        <div class="shell join-grid">
-          <div><p class="stamp stamp-dark">Start where you are</p><h2>Make loyalty<br /><em>a lived value.</em></h2><p class="join-copy">Create a free account to save your check-ins and get a new five-question practice each day.</p><p class="join-promise"><span aria-hidden="true">✳</span> Your first week is about noticing, not getting it perfect.</p></div>
-          <div class="form-wrap">
-            <form id="account-form" class="account-form" novalidate>
-              <div class="form-field"><label for="email">Email address</label><input id="email" name="email" type="email" autocomplete="email" required /><span class="field-error" id="email-error"></span></div>
-              <div class="form-field"><label for="password">Create a password <small>8+ characters</small></label><input id="password" name="password" type="password" autocomplete="new-password" minlength="8" required /><span class="field-error" id="password-error"></span></div>
-              <div class="form-field"><label for="password-confirm">Confirm password</label><input id="password-confirm" name="password-confirm" type="password" autocomplete="new-password" required /><span class="field-error" id="confirm-error"></span></div>
-              <label class="check-row"><input id="terms" name="terms" type="checkbox" required /><span>I agree to the <a href="#join">terms of practice</a>.</span></label>
-              <p class="form-note" id="terms-error"></p>
-              <button class="button button-dark button-full" type="submit">Create my account <span aria-hidden="true">↗</span></button>
-              <p class="privacy-note">Client-side demo only. Nothing is sent or stored.</p>
-              <div id="account-success" class="account-success" role="status" aria-live="polite" hidden></div>
-            </form>
-          </div>
-        </div>
-      </section>
-
-      <section id="member-path" class="member-path section">
+      <section id="market" class="market section">
         <div class="shell">
-          <div class="member-heading">
-            <div><p class="stamp stamp-dark">After you join</p><h2>A practice that<br /><em>meets you there.</em></h2></div>
-            <p>Every day gives you one clear place to begin. Keep the useful parts, leave the guilt behind, and build a record of the promises you keep.</p>
+          <div class="market-header"><div><p class="stamp stamp-dark">Example market board</p><h2>What’s moving<br /><em>this week.</em></h2></div><div class="market-controls"><label for="produce-search" class="sr-only">Search produce</label><input id="produce-search" type="search" placeholder="Search produce…" /><label for="role-filter" class="sr-only">Filter listings by role</label><select id="role-filter"><option value="all">All listings</option><option value="farmer">Farmer listings</option><option value="agent">Agent coordinated</option></select></div></div>
+          <p class="demo-note">Illustrative listings for the demo board. Real availability begins when members post their harvests.</p>
+          <div id="listing-grid" class="listing-grid">
+            <article class="listing" data-role="farmer" data-search="tomatoes lagos fresh produce"><div class="listing-photo tomato-photo" aria-hidden="true"></div><div class="listing-body"><div class="listing-top"><span class="status-dot">Ready now</span><span>Ogun · 24 km</span></div><h3>Roma tomatoes</h3><p>Firm, sorted, crate-ready</p><div class="listing-meta"><strong>2.4 tonnes</strong><span>₦680 / crate</span></div><button class="listing-action" type="button" data-interest="Roma tomatoes">Request details <span aria-hidden="true">↗</span></button></div></article>
+            <article class="listing" data-role="agent" data-search="plantain ibadan route produce"><div class="listing-photo plantain-photo" aria-hidden="true"></div><div class="listing-body"><div class="listing-top"><span class="status-dot status-route">Route forming</span><span>Ibadan · 41 km</span></div><h3>Plantain</h3><p>Green, medium bunches</p><div class="listing-meta"><strong>680 bunches</strong><span>Pickup Friday</span></div><button class="listing-action" type="button" data-interest="Plantain">Request details <span aria-hidden="true">↗</span></button></div></article>
+            <article class="listing" data-role="farmer" data-search="pepper kaduna harvest produce"><div class="listing-photo pepper-photo" aria-hidden="true"></div><div class="listing-body"><div class="listing-top"><span class="status-dot">New listing</span><span>Kaduna · 12 km</span></div><h3>Red peppers</h3><p>Bright, hand-picked harvest</p><div class="listing-meta"><strong>420 kg</strong><span>Available today</span></div><button class="listing-action" type="button" data-interest="Red peppers">Request details <span aria-hidden="true">↗</span></button></div></article>
           </div>
-          <div class="member-dashboard">
-            <div class="dashboard-top">
-              <div><span class="dashboard-kicker">Your practice desk</span><h3>Good morning, future you.</h3></div>
-              <span class="streak-badge"><strong>07</strong> day streak</span>
-            </div>
-            <div class="dashboard-grid">
-              <article class="dashboard-card focus-card">
-                <span class="card-label">Today’s focus</span>
-                <span class="focus-icon" aria-hidden="true">↗</span>
-                <h4>Say the clear thing.</h4>
-                <p>Choose one conversation where a kind, direct answer is more loyal than a comfortable one.</p>
-                <button class="inline-action" type="button" data-practice="Today’s focus saved. Come back when you’ve tried it.">Mark as my focus <span aria-hidden="true">→</span></button>
-                <span class="action-feedback" role="status" aria-live="polite"></span>
-              </article>
-              <article class="dashboard-card">
-                <span class="card-label">Your rhythm</span>
-                <div class="rhythm-number"><strong>4</strong><span>check-ins<br />this week</span></div>
-                <div class="rhythm-bars" aria-label="Four check-ins this week"><span class="is-filled"></span><span class="is-filled"></span><span class="is-filled"></span><span class="is-filled"></span><span></span><span></span><span></span></div>
-                <p>Small proof adds up. You are building a pattern.</p>
-              </article>
-              <article class="dashboard-card reflection-card">
-                <span class="card-label">Weekly reflection</span>
-                <h4>What did you keep<br />when it got hard?</h4>
-                <a class="inline-action" href="#reflection">Open your reflection <span aria-hidden="true">↗</span></a>
-              </article>
-            </div>
-          </div>
-          <div id="reflection" class="reflection-strip">
-            <span class="reflection-mark" aria-hidden="true">✳</span>
-            <div><span class="card-label">A question to carry</span><p>What would the most trustworthy version of you do next?</p></div>
-            <button class="button button-dark" type="button" id="copy-prompt">Copy prompt <span aria-hidden="true">↗</span></button>
-            <span class="action-feedback" id="copy-feedback" role="status" aria-live="polite"></span>
-          </div>
+          <p id="empty-listings" class="empty-listings" hidden>No listings match that search yet. Try another crop or clear the filter.</p>
         </div>
       </section>
+
+      <section id="how-it-works" class="how section">
+        <div class="shell how-grid"><div class="section-heading centered"><p class="stamp stamp-dark">The route</p><h2>Less guessing.<br /><em>More moving.</em></h2><p>Every handoff gets a little clearer, from the first listing to the final delivery.</p></div><div class="route-list"><article class="route-step"><span>01</span><div><h3>Post what’s ready</h3><p>Share crop, quantity, timing, and pickup details in a few minutes.</p></div></article><article class="route-step"><span>02</span><div><h3>Match the right route</h3><p>Agents can help coordinate collection while buyers compare real options.</p></div></article><article class="route-step"><span>03</span><div><h3>Move with confidence</h3><p>Keep the conversation, expectations, and next step in one visible place.</p></div></article></div></div>
+      </section>
+
+      <section id="join" class="join section"><div class="shell join-grid"><div class="section-heading centered"><p class="stamp stamp-dark">Start with your role</p><h2>Put your work<br /><em>on the map.</em></h2><p>Join the early AgriLink network. This demo form stays in your browser—no payment or account is created yet.</p></div><div class="form-wrap"><form id="join-form" novalidate><div class="role-picker" role="radiogroup" aria-label="Choose your role"><button type="button" class="role-choice is-selected" data-role="farmer" aria-pressed="true">I’m a farmer</button><button type="button" class="role-choice" data-role="agent" aria-pressed="false">I’m an agent</button><button type="button" class="role-choice" data-role="buyer" aria-pressed="false">I’m a buyer</button></div><div class="form-field"><label for="join-name">Your name or business</label><input id="join-name" name="name" required /><span class="field-error" id="name-error"></span></div><div class="form-field"><label for="join-contact">Phone or email</label><input id="join-contact" name="contact" required /><span class="field-error" id="contact-error"></span></div><div class="form-field"><label for="join-location">Where are you based?</label><input id="join-location" name="location" placeholder="Town, state or region" required /><span class="field-error" id="location-error"></span></div><button class="button button-dark button-full" type="submit">Save my interest <span aria-hidden="true">↗</span></button><p class="privacy-note">Demo only. Nothing is sent or stored.</p><div id="join-success" class="account-success" role="status" aria-live="polite" hidden></div></form></div></div></section>
     </main>
-    <section class="share-section" aria-labelledby="share-title">
-      <div class="shell share-inner">
-        <div><p class="stamp stamp-dark">Bring someone with you</p><h2 id="share-title">Share the practice.</h2><p>Anyone can visit—no GitHub account is needed.</p></div>
-        <div class="share-link-wrap"><a href="https://cannahanonymous.github.io/my-website/" class="share-link" id="public-link">cannahanonymous.github.io/my-website/</a><button class="button button-dark" type="button" id="copy-site-link">Copy link <span aria-hidden="true">↗</span></button><span class="action-feedback" id="share-feedback" role="status" aria-live="polite"></span></div>
-      </div>
-    </section>
-    <footer class="site-footer"><div class="shell footer-inner"><a class="wordmark" href="#top"><span class="wordmark-mark">LA</span><span>Loyalty<br />Academy</span></a><p>Practice what you stand for.</p><p>© <span id="year"></span> Loyalty Academy</p></div></footer>
+    <footer class="site-footer"><div class="shell footer-inner"><a class="wordmark" href="#top"><span class="wordmark-mark">AL</span><span>Agri<br />Link</span></a><p>Better routes for better harvests.</p><p>© <span id="year"></span> AgriLink</p></div></footer>
     <script src="script.js"></script>
   </body>
 </html>
