@@ -38,6 +38,8 @@ The current frontend remains usable without an API. To connect it, set `window.S
 <script src="script.js"></script>
 ```
 
+For a live connection without editing the published files, open the site once with `?api=https%3A%2F%2Fyour-service.onrender.com`; the frontend accepts HTTPS API URLs only. You can also save the URL in the browser console with `localStorage.setItem("shambalink-api-url", "https://your-service.onrender.com")`. Confirm the service first with `/api/health`; it must return `{"ok":true,"service":"shambalink-api"}`.
+
 This is an initial production-shaped API, not an authentication or payment system. The JSON adapter remains the local fallback; use the schema and a managed PostgreSQL connection for production data, then add managed authentication, rate limiting, and HTTPS before accepting sensitive or commercial data.
 
 ## Deploy

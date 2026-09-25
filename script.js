@@ -1,5 +1,12 @@
 (() => {
-  const apiBase = (window.SHAMBALINK_API_URL || "").replace(/\/$/, "");
+  const configuredApi = window.SHAMBALINK_API_URL || localStorage.getItem("shambalink-api-url") || new URLSearchParams(window.location.search).get("api") || "";
+  let apiBase = "";
+  try {
+    const apiUrl = new URL(configuredApi, window.location.origin);
+    if (configuredApi && apiUrl.protocol === "https:") apiBase = apiUrl.origin.replace(/\/$/, "");
+  } catch {
+    apiBase = "";
+  }
   if (apiBase && !sessionStorage.getItem("shambalink-visit-recorded")) {
     fetch(`${apiBase}/api/visits`, {
       method: "POST",
