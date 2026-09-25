@@ -11,7 +11,17 @@ const allowedOrigin = process.env.ALLOWED_ORIGIN || "*";
 const seedListings = [
   { id: "maize-iringa", crop: "Maize", localName: "Mahindi", role: "farmer", location: "Iringa", distanceKm: 24, quantity: "2.4 tonnes", priceTshPerKg: 1150, status: "Ready now", description: "Dry grain, bagged and sorted" },
   { id: "rice-morogoro", crop: "Rice", localName: "Mpunga", role: "agent", location: "Morogoro", distanceKm: 41, quantity: "680 bags", priceTshPerKg: 2400, status: "Route forming", description: "Clean, locally milled grain" },
-  { id: "cashew-mtwara", crop: "Cashew", localName: "Korosho", role: "farmer", location: "Mtwara", distanceKm: 12, quantity: "420 kg", priceTshPerKg: 3800, status: "New listing", description: "Sun-dried, farm-gate harvest" }
+  { id: "cashew-mtwara", crop: "Cashew", localName: "Korosho", role: "farmer", location: "Mtwara", distanceKm: 12, quantity: "420 kg", priceTshPerKg: 3800, status: "New listing", description: "Sun-dried, farm-gate harvest" },
+  { id: "cassava-mtwara", crop: "Cassava", localName: "Muhogo", role: "farmer", location: "Mtwara", distanceKm: 18, quantity: "1.8 tonnes", priceTshPerKg: 850, status: "Ready now", description: "Fresh roots for local markets" },
+  { id: "beans-kigoma", crop: "Beans", localName: "Maharage", role: "farmer", location: "Kigoma", distanceKm: 32, quantity: "640 kg", priceTshPerKg: 2100, status: "New listing", description: "Sorted red kidney beans" },
+  { id: "banana-kagera", crop: "Banana", localName: "Ndizi", role: "agent", location: "Kagera", distanceKm: 27, quantity: "900 bunches", priceTshPerKg: 900, status: "Route forming", description: "Cooking bananas for collection" },
+  { id: "potato-arusha", crop: "Potato", localName: "Viazi", role: "farmer", location: "Arusha", distanceKm: 16, quantity: "3 tonnes", priceTshPerKg: 1250, status: "Ready now", description: "Washed table potatoes" },
+  { id: "sorghum-dodoma", crop: "Sorghum", localName: "Mtama", role: "farmer", location: "Dodoma", distanceKm: 20, quantity: "1.2 tonnes", priceTshPerKg: 1050, status: "New listing", description: "Dry grain for food markets" },
+  { id: "millet-singida", crop: "Millet", localName: "Ulezi", role: "farmer", location: "Singida", distanceKm: 22, quantity: "760 kg", priceTshPerKg: 1400, status: "Ready now", description: "Clean finger millet" },
+  { id: "tomato-morogoro", crop: "Tomato", localName: "Nyanya", role: "agent", location: "Morogoro", distanceKm: 14, quantity: "320 crates", priceTshPerKg: 1300, status: "Route forming", description: "Fresh field tomatoes" },
+  { id: "onion-manyara", crop: "Onion", localName: "Vitunguu", role: "farmer", location: "Manyara", distanceKm: 29, quantity: "1.4 tonnes", priceTshPerKg: 1800, status: "New listing", description: "Cured red onions" },
+  { id: "sweet-potato-mara", crop: "Sweet potato", localName: "Viazi vitamu", role: "farmer", location: "Mara", distanceKm: 25, quantity: "980 kg", priceTshPerKg: 900, status: "Ready now", description: "Fresh orange-fleshed roots" },
+  { id: "groundnut-tabora", crop: "Groundnut", localName: "Karanga", role: "agent", location: "Tabora", distanceKm: 38, quantity: "520 kg", priceTshPerKg: 2200, status: "Route forming", description: "Shelled food-grade groundnuts" }
 ];
 
 async function loadStore() {

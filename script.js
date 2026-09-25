@@ -43,6 +43,13 @@
   }
   search?.addEventListener("input", filterListings);
   filter?.addEventListener("change", filterListings);
+  document.querySelectorAll("[data-crop-search]").forEach((button) => {
+    button.addEventListener("click", () => {
+      search.value = button.dataset.cropSearch.split(" ")[0];
+      filterListings();
+      search.focus();
+    });
+  });
   document.querySelectorAll("[data-interest]").forEach((button) => {
     button.addEventListener("click", () => {
       button.textContent = currentLanguage === "sw" ? "Nia imehifadhiwa ✓" : "Interest noted ✓";
@@ -83,11 +90,11 @@
     "Join ShambaLink": "Jiunge na ShambaLink", "Your details are sent securely to the ShambaLink service.": "Taarifa zako zitatumwa kwa usalama kwenye huduma ya ShambaLink.",
     "Ask Shamba AI": "Uliza Shamba AI", "Shamba AI": "Shamba AI", "Ask about crops, roles, or how to use the market board.": "Uliza kuhusu mazao, nafasi au jinsi ya kutumia ubao wa soko.",
     "What grows in Tanzania?": "Nini hulimwa Tanzania?", "How do I list maize?": "Nitawekaje mahindi?", "Help me buy rice": "Nisaidie kununua mpunga", "Ask a question…": "Uliza swali…",
-    "Better routes for better harvests.": "Njia bora kwa mavuno bora."
+    "Better routes for better harvests.": "Njia bora kwa mavuno bora.", "Food crops:": "Mazao ya chakula:", "Cassava / Muhogo": "Muhogo", "Beans / Maharage": "Maharage", "Banana / Ndizi": "Ndizi", "Potato / Viazi": "Viazi", "Sorghum / Mtama": "Mtama", "Millet / Ulezi": "Ulezi", "Tomato / Nyanya": "Nyanya", "Onion / Vitunguu": "Vitunguu", "Sweet potato / Viazi vitamu": "Viazi vitamu", "Groundnut / Karanga": "Karanga", "Sesame / Ufuta": "Ufuta", "Sunflower / Alizeti": "Alizeti", "Wheat / Ngano": "Ngano"
   };
   const translatedAttributes = {
     "aria-label": { "Primary navigation": "Menyu kuu", "Language selector": "Kichagua lugha", "Market snapshot": "Muhtasari wa soko", "Open live market board": "Fungua ubao wa soko", "Indicative crop price trend": "Mwelekeo wa bei za mazao", "Choose your role": "Chagua nafasi yako", "ShambaLink AI assistant": "Msaidizi wa ShambaLink AI", "Close assistant": "Funga msaidizi", "Send question": "Tuma swali" },
-    "placeholder": { "Search produce…": "Tafuta mazao…", "Town, region or district": "Mji, mkoa au wilaya", "Ask a question…": "Uliza swali…" },
+    "placeholder": { "Search produce…": "Tafuta mazao…", "Search any Tanzania food crop…": "Tafuta zao lolote la chakula Tanzania…", "Town, region or district": "Mji, mkoa au wilaya", "Ask a question…": "Uliza swali…" },
     "alt": { "Farmer tending crops in a green field": "Mkulima akitunza mazao katika shamba la kijani", "Market partners coordinating a route": "Washirika wa soko wakiratibu njia", "Buyer checking produce supply": "Mnunuzi akikagua upatikanaji wa mazao", "Maize cobs in a field": "Magunzi ya mahindi shambani", "Rice plants and grains spilling from a sack": "Mimea ya mpunga na punje zikimwagika kutoka kwenye gunia", "Cashew nuts in a bowl": "Korosho kwenye bakuli" }
   };
   const originalText = new WeakMap();
