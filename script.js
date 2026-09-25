@@ -42,6 +42,17 @@
   const verificationForm = document.querySelector("#verification-form");
   const registrationKey = "shambalink-member-v2";
   let challengeId = "";
+  function apiMessage(response, fallback) {
+    return response.text().then((text) => {
+      try { return { ok: response.ok, data: JSON.parse(text) }; } catch { return { ok: false, data: { error: fallback } }; }
+    });
+  }
+  function normalizedPhone(value) {
+    const digits = value.replace(/\D/g, "");
+    if (digits.startsWith("0")) return `+255${digits.slice(1)}`;
+    if (digits.startsWith("255")) return `+${digits}`;
+    return value.trim().startsWith("+") ? `+${digits}` : digits;
+  }
   function openServices() {
     if (registrationGate) registrationGate.hidden = true;
     if (services) services.hidden = false;
@@ -58,7 +69,7 @@
     const contactType = registrationForm.querySelector("input[name=contactType]:checked").value;
     let valid = true;
     [[name, "register-name-error", name.value.trim().length < 2],
-      [contact, "register-contact-error", contactType === "phone" ? !/^\+?[1-9]\d{7,14}$/.test(contact.value.replace(/[^\d+]/g, "")) : !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact.value.trim())],
+      [contact, "register-contact-error", contactType === "phone" ? !/^\+[1-9]\d{7,14}$/.test(normalizedPhone(contact.value)) : !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact.value.trim())],
       [password, "register-password-error", password.value.length < 8],
       [terms, "register-terms-error", !terms.checked]].forEach(([field, errorId, invalid]) => {
       const error = document.querySelector(`#${errorId}`);
@@ -73,11 +84,17 @@
       status.classList.add("is-error");
       return;
     }
+    if (!apiBase) {
+      status.textContent = currentLanguage === "sw" ? "Huduma ya uthibitishaji bado haijaunganishwa." : "Phone verification is not connected yet. Please configure the ShambaLink API.";
+      status.classList.add("is-error");
+      return;
+    }
     try {
-      const response = await fetch(`${apiBase}/api/auth/request-code`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ contactType, contact: contact.value, role: registrationForm.querySelector("input[name=role]:checked").value }) });
-      const result = await response.json();
-      if (!response.ok) throw new Error(result.error || "Verification is unavailable.");
-      challengeId = result.challengeId;
+      const normalized = contactType === "phone" ? normalizedPhone(contact.value) : contact.value.trim().toLowerCase();
+      const response = await fetch(`${apiBase}/api/auth/request-code`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ contactType, contact: normalized, role: registrationForm.querySelector("input[name=role]:checked").value }) });
+      const result = await apiMessage(response, "Verification is unavailable.");
+      if (!result.ok) throw new Error(result.data.error || "Verification is unavailable.");
+      challengeId = result.data.challengeId;
       registrationForm.hidden = true;
       verificationForm.hidden = false;
       status.classList.remove("is-error");
@@ -96,16 +113,16 @@
     if (!/^\d{6}$/.test(code)) { error.textContent = currentLanguage === "sw" ? "Ingiza tarakimu 6." : "Enter the 6-digit code."; return; }
     try {
       const verified = await fetch(`${apiBase}/api/auth/verify-code`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ challengeId, code }) });
-      const verifiedResult = await verified.json();
-      if (!verified.ok) throw new Error(verifiedResult.error || "Verification failed.");
+      const verifiedResult = await apiMessage(verified, "Verification failed.");
+      if (!verifiedResult.ok) throw new Error(verifiedResult.data.error || "Verification failed.");
       const name = document.querySelector("#register-name").value.trim();
       const role = registrationForm.querySelector("input[name=role]:checked").value;
       const contact = document.querySelector("#register-contact").value.trim();
       const password = document.querySelector("#register-password").value;
-      const created = await fetch(`${apiBase}/api/auth/register`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ verificationToken: verifiedResult.verificationToken, name, role, password }) });
-      const createdResult = await created.json();
-      if (!created.ok) throw new Error(createdResult.error || "Registration failed.");
-      localStorage.setItem(registrationKey, JSON.stringify({ id: createdResult.user.id, name, role, contact, registeredAt: new Date().toISOString() }));
+      const created = await fetch(`${apiBase}/api/auth/register`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ verificationToken: verifiedResult.data.verificationToken, name, role, password }) });
+      const createdResult = await apiMessage(created, "Registration failed.");
+      if (!createdResult.ok) throw new Error(createdResult.data.error || "Registration failed.");
+      localStorage.setItem(registrationKey, JSON.stringify({ id: createdResult.data.user.id, name, role, contact, registeredAt: new Date().toISOString() }));
       status.textContent = currentLanguage === "sw" ? "Wasifu wako umethibitishwa. Karibu ShambaLink." : "Your profile is verified. Welcome to ShambaLink.";
       openServices();
     } catch (error) { status.textContent = error.message; status.classList.add("is-error"); }

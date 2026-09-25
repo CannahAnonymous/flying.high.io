@@ -75,7 +75,12 @@ function notifyInterestBySms(interest) {
 
   function normalizeContact(type, value) {
     const contact = value.trim();
-    if (type === "phone") return contact.replace(/[^\d+]/g, "");
+    if (type === "phone") {
+      const digits = contact.replace(/\D/g, "");
+      if (digits.startsWith("0")) return `+255${digits.slice(1)}`;
+      if (digits.startsWith("255")) return `+${digits}`;
+      return contact.startsWith("+") ? `+${digits}` : digits;
+    }
     return contact.toLowerCase();
   }
 
