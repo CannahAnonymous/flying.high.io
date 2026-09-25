@@ -29,7 +29,25 @@ FORM: Marketplace landing page with a role-aware onboarding moment and transpare
       </div>
     </header>
 
-    <main id="main-content">
+    <section id="registration-gate" class="registration-gate" aria-labelledby="registration-title">
+      <div class="registration-card">
+        <div class="registration-mark" aria-hidden="true"><img src="shamba-icon.svg" alt="" /></div>
+        <p class="stamp stamp-dark">Welcome to ShambaLink</p>
+        <h1 id="registration-title">Your harvest network<br /><em>starts here.</em></h1>
+        <p class="registration-lede">Create your free profile before browsing services, prices, and routes across Tanzania.</p>
+        <form id="registration-form" novalidate>
+          <div class="form-field"><label for="register-name">Full name or business</label><input id="register-name" name="name" autocomplete="name" required /><span class="field-error" id="register-name-error"></span></div>
+          <div class="form-field"><label for="register-email">Email address</label><input id="register-email" name="email" type="email" autocomplete="email" required /><span class="field-error" id="register-email-error"></span></div>
+          <div class="form-field"><label for="register-password">Create password</label><input id="register-password" name="password" type="password" minlength="8" autocomplete="new-password" required /><span class="field-error" id="register-password-error"></span></div>
+          <div class="registration-role"><span> I am joining as</span><label><input type="radio" name="role" value="farmer" checked /> Farmer</label><label><input type="radio" name="role" value="agent" /> Agent</label><label><input type="radio" name="role" value="buyer" /> Buyer</label></div>
+          <label class="terms-check"><input id="register-terms" type="checkbox" required /><span>I agree to the ShambaLink terms and privacy notice.</span></label>
+          <span class="field-error" id="register-terms-error"></span>
+          <button class="button button-dark button-full" type="submit">Create my profile <span aria-hidden="true">↗</span></button>
+          <p id="registration-status" class="registration-status" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+    <main id="main-content" data-services tabindex="-1" hidden>
       <section id="top" class="hero">
         <div class="hero-image" aria-hidden="true"></div><div class="hero-scrim" aria-hidden="true"></div>
         <div class="shell hero-content">

@@ -26,6 +26,46 @@
     nav.classList.toggle("is-open", !open);
   });
 
+  const registrationGate = document.querySelector("#registration-gate");
+  const services = document.querySelector("[data-services]");
+  const registrationForm = document.querySelector("#registration-form");
+  const registrationKey = "shambalink-member";
+  function openServices() {
+    registrationGate.hidden = true;
+    services.hidden = false;
+  }
+  if (localStorage.getItem(registrationKey)) openServices();
+  registrationForm?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const name = document.querySelector("#register-name");
+    const email = document.querySelector("#register-email");
+    const password = document.querySelector("#register-password");
+    const terms = document.querySelector("#register-terms");
+    const status = document.querySelector("#registration-status");
+    let valid = true;
+    [[name, "register-name-error", name.value.trim().length < 2],
+      [email, "register-email-error", !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())],
+      [password, "register-password-error", password.value.length < 8],
+      [terms, "register-terms-error", !terms.checked]].forEach(([field, errorId, invalid]) => {
+      const error = document.querySelector(`#${errorId}`);
+      error.textContent = "";
+      if (invalid) {
+        error.textContent = currentLanguage === "sw" ? "Tafadhali jaza sehemu hii kwa usahihi." : "Please complete this field correctly.";
+        valid = false;
+      }
+    });
+    if (!valid) {
+      status.textContent = currentLanguage === "sw" ? "Kagua taarifa zako kisha ujaribu tena." : "Check your details and try again.";
+      status.classList.add("is-error");
+      return;
+    }
+    localStorage.setItem(registrationKey, JSON.stringify({ name: name.value.trim(), email: email.value.trim(), role: registrationForm.querySelector("input[name=role]:checked").value, registeredAt: new Date().toISOString() }));
+    status.classList.remove("is-error");
+    status.textContent = currentLanguage === "sw" ? "Akaunti yako iko tayari. Karibu ShambaLink." : "Your profile is ready. Welcome to ShambaLink.";
+    openServices();
+    document.querySelector("#main-content")?.focus();
+  });
+
   const search = document.querySelector("#produce-search");
   const filter = document.querySelector("#role-filter");
   const listings = [...document.querySelectorAll(".listing")];
@@ -133,7 +173,14 @@
     "Join ShambaLink": "Jiunge na ShambaLink", "Your details are sent securely to the ShambaLink service.": "Taarifa zako zitatumwa kwa usalama kwenye huduma ya ShambaLink.",
     "Ask Shamba AI": "Uliza Shamba AI", "Shamba AI": "Shamba AI", "Ask about crops, roles, or how to use the market board.": "Uliza kuhusu mazao, nafasi au jinsi ya kutumia ubao wa soko.",
     "What grows in Tanzania?": "Nini hulimwa Tanzania?", "How do I list maize?": "Nitawekaje mahindi?", "Help me buy rice": "Nisaidie kununua mpunga", "Ask a question…": "Uliza swali…",
-    "Better routes for better harvests.": "Njia bora kwa mavuno bora.", "Food crops:": "Mazao ya chakula:", "Cassava / Muhogo": "Muhogo", "Beans / Maharage": "Maharage", "Banana / Ndizi": "Ndizi", "Potato / Viazi": "Viazi", "Sorghum / Mtama": "Mtama", "Millet / Ulezi": "Ulezi", "Tomato / Nyanya": "Nyanya", "Onion / Vitunguu": "Vitunguu", "Sweet potato / Viazi vitamu": "Viazi vitamu", "Groundnut / Karanga": "Karanga", "Sesame / Ufuta": "Ufuta", "Sunflower / Alizeti": "Alizeti", "Wheat / Ngano": "Ngano", "Selected crop": "Zao lililochaguliwa", "Market": "Soko", "Available": "Inapatikana", "Price": "Bei"
+    "Better routes for better harvests.": "Njia bora kwa mavuno bora.", "Food crops:": "Mazao ya chakula:", "Cassava / Muhogo": "Muhogo", "Beans / Maharage": "Maharage", "Banana / Ndizi": "Ndizi", "Potato / Viazi": "Viazi", "Sorghum / Mtama": "Mtama", "Millet / Ulezi": "Ulezi", "Tomato / Nyanya": "Nyanya", "Onion / Vitunguu": "Vitunguu", "Sweet potato / Viazi vitamu": "Viazi vitamu", "Groundnut / Karanga": "Karanga", "Sesame / Ufuta": "Ufuta", "Sunflower / Alizeti": "Alizeti", "Wheat / Ngano": "Ngano",     "Selected crop": "Zao lililochaguliwa", "Market": "Soko", "Available": "Inapatikana", "Price": "Bei",
+    "Welcome to ShambaLink": "Karibu ShambaLink", "Your harvest network": "Mtandao wako wa mavuno", "starts here.": "unaanza hapa.",
+    "Create your free profile before browsing services, prices, and routes across Tanzania.": "Unda wasifu wako bila malipo kabla ya kuona huduma, bei na njia za biashara Tanzania.",
+    "Full name or business": "Jina kamili au biashara", "Email address": "Barua pepe", "Create password": "Unda nenosiri",
+    "I am joining as": "Ninajiunga kama", "Farmer": "Mkulima", "Agent": "Wakala", "Buyer": "Mnunuzi",
+    "I agree to the ShambaLink terms and privacy notice.": "Ninakubali masharti na taarifa ya faragha ya ShambaLink.", "Create my profile": "Unda wasifu wangu",
+    "Please complete this field correctly.": "Tafadhali jaza sehemu hii kwa usahihi.", "Check your details and try again.": "Kagua taarifa zako kisha ujaribu tena.",
+    "Your profile is ready. Welcome to ShambaLink.": "Wasifu wako uko tayari. Karibu ShambaLink."
   };
   const translatedAttributes = {
     "aria-label": { "Primary navigation": "Menyu kuu", "Language selector": "Kichagua lugha", "Market snapshot": "Muhtasari wa soko", "Open live market board": "Fungua ubao wa soko", "Indicative crop price trend": "Mwelekeo wa bei za mazao", "Choose your role": "Chagua nafasi yako", "ShambaLink AI assistant": "Msaidizi wa ShambaLink AI", "Close assistant": "Funga msaidizi", "Send question": "Tuma swali" },
