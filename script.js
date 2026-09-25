@@ -29,44 +29,75 @@
   filter?.addEventListener("change", filterListings);
   document.querySelectorAll("[data-interest]").forEach((button) => {
     button.addEventListener("click", () => {
-      button.textContent = "Interest noted ✓";
+      button.textContent = currentLanguage === "sw" ? "Nia imehifadhiwa ✓" : "Interest noted ✓";
       button.setAttribute("aria-pressed", "true");
     });
 
   });
 
+  let currentLanguage = "en";
   const swahili = {
-    "How it works": "Jinsi inavyofanya kazi", "Browse produce": "Tazama mazao", "Join the network": "Jiunge na mtandao",
-    "Get started": "Anza sasa", "A clearer route from field to table": "Njia rahisi kutoka shambani hadi mezani",
-    "Good food should": "Chakula bora kinapaswa", "move fairly.": "kusafirishwa kwa haki.", "See what’s available": "Tazama yanayopatikana",
-    "Learn the route": "Jifunze njia", "One network, three roles": "Mtandao mmoja, nafasi tatu", "Farmers": "Wakulima", "Agents": "Mawakala",
-    "Buyers": "Wanunuzi", "Find your place": "Pata nafasi yako", "in the harvest.": "katika mavuno.", "Example market board": "Ubao wa soko",
-    "What’s moving": "Kinachosafirishwa", "this week.": "wiki hii.", "All listings": "Matangazo yote", "Farmer listings": "Matangazo ya wakulima",
-    "Agent coordinated": "Yaliyoratibiwa na wakala", "The route": "Njia", "Less guessing.": "Makisio kidogo.", "More moving.": "Usafirishaji zaidi.",
+    "Skip to content": "Ruka hadi kwenye maudhui", "Toggle navigation": "Fungua menyu", "Menu": "Menyu",
+    "How it works": "Jinsi inavyofanya kazi", "Browse produce": "Tazama mazao", "Join the network": "Jiunge na mtandao", "Get started": "Anza sasa",
+    "A clearer route from field to table": "Njia rahisi kutoka shambani hadi mezani", "Good food should": "Chakula bora kinapaswa", "move fairly.": "kusafirishwa kwa haki.",
+    "ShambaLink brings Tanzanian farmers, trusted agents, and serious buyers into one simple market—so every harvest has a better chance to reach the people who need it.": "ShambaLink huwaunganisha wakulima wa Tanzania, mawakala wanaoaminika na wanunuzi katika soko moja—ili kila mavuno yawafikie wanaoyahitaji.",
+    "See what’s available": "Tazama yanayopatikana", "Learn the route": "Jifunze njia", "Market snapshot": "Muhtasari wa soko", "LIVE BOARD": "UBAO WA LIVE",
+    "Fresh harvests, clear quantities, fewer unanswered calls.": "Mavuno mapya, kiasi kinachoeleweka, na simu chache zisizojibiwa.", "Browse the market board": "Tazama ubao wa soko",
+    "Live board": "Ubao wa moja kwa moja", "12 harvests moving today": "Mavuno 12 yanasafirishwa leo", "Explore the network": "Chunguza mtandao",
+    "One network, three roles": "Mtandao mmoja, nafasi tatu", "Find your place": "Pata nafasi yako", "in the harvest.": "katika mavuno.",
+    "ShambaLink keeps everyone close to the information they need—without making anyone speak a different language.": "ShambaLink huwapa wote taarifa wanazohitaji—bila kumlazimisha mtu kutumia lugha tofauti.",
+    "Farmers": "Wakulima", "Agents": "Mawakala", "Buyers": "Wanunuzi", "Show what is ready, set your terms, and reach buyers beyond the gate.": "Onyesha kilicho tayari, weka masharti yako, na wafikie wanunuzi zaidi ya shamba.",
+    "List a harvest": "Tangaza mavuno", "Coordinate a route": "Ratibu njia", "Coordinate collection, connect the right people, and keep every promise visible.": "Ratibu ukusanyaji, waunganishe watu sahihi, na weka kila ahadi wazi.",
+    "Find produce": "Tafuta mazao", "Find dependable supply, compare details, and buy with confidence.": "Pata mazao ya kuaminika, linganisha maelezo, na nunua kwa ujasiri.",
+    "Live market board": "Ubao wa soko wa moja kwa moja", "What’s moving": "Kinachosafirishwa", "this week.": "wiki hii.", "All listings": "Matangazo yote", "Farmer listings": "Matangazo ya wakulima", "Agent coordinated": "Yaliyoratibiwa na wakala",
+    "Tanzania market references · verify the final negotiated price with your agent before trading.": "Marejeo ya soko la Tanzania · thibitisha bei ya mwisho na wakala wako kabla ya biashara.", "Price pulse · TSh per kg": "Mwelekeo wa bei · TSh kwa kilo",
+    "Stable demand across the board.": "Mahitaji ni thabiti kwa mazao yote.", "Reference movement over the last four market checks.": "Mabadiliko ya bei katika vipimo vinne vya mwisho vya soko.",
+    "Ready now": "Tayari sasa", "Route forming": "Njia inaundwa", "New listing": "Tangazo jipya", "Dry grain, bagged and sorted": "Nafaka kavu, imefungashwa na kuchambuliwa",
+    "Clean, locally milled grain": "Nafaka safi iliyosagwa hapa nchini", "Sun-dried, farm-gate harvest": "Mavuno yaliyokaushwa juani shambani", "Indicative": "Bei ya rejea", "Pickup Friday": "Kuchukuliwa Ijumaa", "Available today": "Inapatikana leo",
+    "Mon": "Jumatatu", "Wed": "Jumatano", "Fri": "Ijumaa",
+    "Request details": "Omba maelezo", "No listings match that search yet. Try another crop or clear the filter.": "Hakuna tangazo linalolingana. Tafuta zao jingine au ondoa kichujio.",
+    "The route": "Njia", "Less guessing.": "Makisio kidogo.", "More moving.": "Usafirishaji zaidi.", "Every handoff gets a little clearer, from the first listing to the final delivery.": "Kila hatua huwa wazi zaidi, kuanzia tangazo la kwanza hadi uwasilishaji wa mwisho.",
+    "Post what’s ready": "Tangaza kilicho tayari", "Share crop, quantity, timing, and pickup details in a few minutes.": "Shiriki zao, kiasi, muda na maelezo ya kuchukua kwa dakika chache.",
+    "Match the right route": "Pata njia sahihi", "Agents can help coordinate collection while buyers compare real options.": "Mawakala wanaweza kuratibu ukusanyaji huku wanunuzi wakilinganisha chaguo halisi.",
+    "Move with confidence": "Songa kwa ujasiri", "Keep the conversation, expectations, and next step in one visible place.": "Weka mawasiliano, matarajio na hatua inayofuata mahali pamoja panapoonekana.",
     "Start with your role": "Anza na nafasi yako", "Put your work": "Weka kazi yako", "on the map.": "kwenye ramani.",
-    "I’m a farmer": "Mimi ni mkulima", "I’m an agent": "Mimi ni wakala", "I’m a buyer": "Mimi ni mnunuzi",
-    "Your name or business": "Jina lako au biashara", "Phone or email": "Simu au barua pepe", "Request details": "Omba maelezo",
-    "Ready now": "Tayari sasa", "Route forming": "Njia inaundwa", "New listing": "Tangazo jipya", "Ask Shamba AI": "Uliza Shamba AI",
-    "What grows in Tanzania?": "Nini hulimwa Tanzania?", "How do I list maize?": "Nitawekaje mahindi?", "Help me buy rice": "Nisaidie kununua mpunga",
-    "Copy link": "Nakili kiungo", "Save my interest": "Hifadhi nia yangu", "Language / Lugha": "Lugha / Language"
+    "Join the ShambaLink network and connect with farmers, agents, and buyers across Tanzania.": "Jiunge na mtandao wa ShambaLink na uunganishwe na wakulima, mawakala na wanunuzi Tanzania nzima.",
+    "I’m a farmer": "Mimi ni mkulima", "I’m an agent": "Mimi ni wakala", "I’m a buyer": "Mimi ni mnunuzi", "Choose your role": "Chagua nafasi yako",
+    "Your name or business": "Jina lako au biashara", "Phone or email": "Simu au barua pepe", "Where are you based?": "Unaishi wapi?", "Town, region or district": "Mji, mkoa au wilaya",
+    "Join ShambaLink": "Jiunge na ShambaLink", "Your details are sent securely to the ShambaLink service.": "Taarifa zako zitatumwa kwa usalama kwenye huduma ya ShambaLink.",
+    "Ask Shamba AI": "Uliza Shamba AI", "Shamba AI": "Shamba AI", "Ask about crops, roles, or how to use the market board.": "Uliza kuhusu mazao, nafasi au jinsi ya kutumia ubao wa soko.",
+    "What grows in Tanzania?": "Nini hulimwa Tanzania?", "How do I list maize?": "Nitawekaje mahindi?", "Help me buy rice": "Nisaidie kununua mpunga", "Ask a question…": "Uliza swali…",
+    "Better routes for better harvests.": "Njia bora kwa mavuno bora."
   };
+  const translatedAttributes = {
+    "aria-label": { "Primary navigation": "Menyu kuu", "Language selector": "Kichagua lugha", "Market snapshot": "Muhtasari wa soko", "Open live market board": "Fungua ubao wa soko", "Indicative crop price trend": "Mwelekeo wa bei za mazao", "Choose your role": "Chagua nafasi yako", "ShambaLink AI assistant": "Msaidizi wa ShambaLink AI", "Close assistant": "Funga msaidizi", "Send question": "Tuma swali" },
+    "placeholder": { "Search produce…": "Tafuta mazao…", "Town, region or district": "Mji, mkoa au wilaya", "Ask a question…": "Uliza swali…" },
+    "alt": { "Farmer tending crops in a green field": "Mkulima akitunza mazao katika shamba la kijani", "Market partners coordinating a route": "Washirika wa soko wakiratibu njia", "Buyer checking produce supply": "Mnunuzi akikagua upatikanaji wa mazao", "Maize cobs in a field": "Magunzi ya mahindi shambani", "Rice grains and rice plants": "Punje za mpunga na mimea ya mpunga", "Cashew nuts in a bowl": "Korosho kwenye bakuli" }
+  };
+  const originalText = new WeakMap();
   function translatePage(language) {
     const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
     const nodes = [];
     while (walker.nextNode()) nodes.push(walker.currentNode);
     nodes.forEach((node) => {
-      const key = node.nodeValue.trim();
-      if (!key || node.parentElement.closest("script,style")) return;
-      if (!node.dataset.originalText) node.dataset.originalText = node.nodeValue;
-      const original = node.dataset.originalText.trim();
-      if (language === "sw" && swahili[original]) node.nodeValue = node.nodeValue.replace(original, swahili[original]);
-      if (language === "en") node.nodeValue = node.dataset.originalText;
+      if (!node.nodeValue.trim() || node.parentElement.closest("script,style")) return;
+      if (!originalText.has(node)) originalText.set(node, node.nodeValue);
+      const original = originalText.get(node);
+      const key = original.trim();
+      node.nodeValue = language === "sw" && swahili[key] ? original.replace(key, swahili[key]) : original;
     });
-    document.querySelectorAll("input[placeholder]").forEach((input) => {
-      if (!input.dataset.originalPlaceholder) input.dataset.originalPlaceholder = input.placeholder;
-      if (language === "sw" && input.dataset.originalPlaceholder === "Search produce…") input.placeholder = "Tafuta mazao…";
-      if (language === "en") input.placeholder = input.dataset.originalPlaceholder;
+    document.querySelectorAll("[aria-label], [placeholder], img[alt]").forEach((element) => {
+      ["aria-label", "placeholder", "alt"].forEach((attribute) => {
+        const value = element.getAttribute(attribute);
+        const translated = translatedAttributes[attribute]?.[value];
+        if (translated) {
+          if (!element.dataset[`en${attribute}`]) element.dataset[`en${attribute}`] = value;
+          element.setAttribute(attribute, language === "sw" ? translated : element.dataset[`en${attribute}`]);
+        }
+      });
     });
+    document.title = language === "sw" ? "ShambaLink — Kutoka shambani hadi soko la haki" : "ShambaLink — From shamba to fair market";
+    currentLanguage = language;
   }
   document.querySelectorAll(".language-button").forEach((button) => button.addEventListener("click", () => {
     document.querySelectorAll(".language-button").forEach((item) => item.classList.toggle("is-active", item === button));
@@ -100,7 +131,7 @@
       const input = document.querySelector(`#join-${field}`);
       const error = document.querySelector(`#${field}-error`);
       error.textContent = "";
-      if (!input.value.trim()) { error.textContent = "This field is required."; valid = false; }
+      if (!input.value.trim()) { error.textContent = currentLanguage === "sw" ? "Sehemu hii inahitajika." : "This field is required."; valid = false; }
     });
     if (!valid) { joinForm.querySelector("input:invalid, input:not(:placeholder-shown)")?.focus(); return; }
     const labels = { farmer: "farmer", agent: "agent", buyer: "buyer" };
@@ -114,11 +145,12 @@
       : Promise.reject(new Error("ShambaLink service is not configured."));
     saveInterest.then(() => {
       success.hidden = false;
-      success.textContent = `Thanks—your ${labels[selectedRole]} interest is now in the ShambaLink network.`;
+      const roleName = currentLanguage === "sw" ? ({ farmer: "mkulima", agent: "wakala", buyer: "mnunuzi" }[selectedRole]) : labels[selectedRole];
+      success.textContent = currentLanguage === "sw" ? `Asante—nia yako kama ${roleName} sasa iko kwenye mtandao wa ShambaLink.` : `Thanks—your ${roleName} interest is now in the ShambaLink network.`;
       joinForm.querySelector("button[type=submit]").disabled = true;
     }).catch(() => {
       success.hidden = false;
-      success.textContent = "ShambaLink is temporarily unavailable. Please try again shortly.";
+      success.textContent = currentLanguage === "sw" ? "ShambaLink haipatikani kwa muda. Tafadhali jaribu tena hivi karibuni." : "ShambaLink is temporarily unavailable. Please try again shortly.";
     });
   });
 
@@ -129,10 +161,10 @@
   const assistantResponse = document.querySelector("#assistant-response");
   function answerAssistant(question) {
     const text = question.toLowerCase();
-    if (text.includes("tanzania") || text.includes("crop") || text.includes("zao")) return "Tanzania grows maize, rice, cassava, beans, coffee, cashew, sunflower, sesame, bananas and tomatoes. Start by choosing a region and harvest timing.";
-    if (text.includes("maize") || text.includes("mahindi")) return "To list maize, choose Farmer, add your name, contact, location, quantity and harvest timing. An agent can then help coordinate collection.";
-    if (text.includes("rice") || text.includes("mpunga") || text.includes("buy")) return "Buyers can search the market board, filter by agent or farmer, then request details from the listing that matches their quantity and pickup needs.";
-    return "I can help with Tanzanian crops, listing a harvest, finding produce, or choosing the right ShambaLink role.";
+    if (text.includes("tanzania") || text.includes("crop") || text.includes("zao")) return currentLanguage === "sw" ? "Tanzania hulima mahindi, mpunga, mihogo, maharage, kahawa, korosho, alizeti, ufuta, ndizi na nyanya. Anza kwa kuchagua mkoa na muda wa mavuno." : "Tanzania grows maize, rice, cassava, beans, coffee, cashew, sunflower, sesame, bananas and tomatoes. Start by choosing a region and harvest timing.";
+    if (text.includes("maize") || text.includes("mahindi")) return currentLanguage === "sw" ? "Ili kutangaza mahindi, chagua Mkulima, ongeza jina, mawasiliano, eneo, kiasi na muda wa mavuno. Wakala anaweza kusaidia kuratibu ukusanyaji." : "To list maize, choose Farmer, add your name, contact, location, quantity and harvest timing. An agent can then help coordinate collection.";
+    if (text.includes("rice") || text.includes("mpunga") || text.includes("buy")) return currentLanguage === "sw" ? "Wanunuzi wanaweza kutafuta kwenye ubao wa soko, kuchuja kwa wakala au mkulima, kisha kuomba maelezo ya zao linalolingana na mahitaji yao." : "Buyers can search the market board, filter by agent or farmer, then request details from the listing that matches their quantity and pickup needs.";
+    return currentLanguage === "sw" ? "Naweza kusaidia kuhusu mazao ya Tanzania, kutangaza mavuno, kutafuta mazao au kuchagua nafasi sahihi ya ShambaLink." : "I can help with Tanzanian crops, listing a harvest, finding produce, or choosing the right ShambaLink role.";
   }
   assistantToggle?.addEventListener("click", () => {
     const open = assistantToggle.getAttribute("aria-expanded") === "true";
