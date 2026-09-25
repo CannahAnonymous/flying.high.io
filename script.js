@@ -88,7 +88,7 @@
   const translatedAttributes = {
     "aria-label": { "Primary navigation": "Menyu kuu", "Language selector": "Kichagua lugha", "Market snapshot": "Muhtasari wa soko", "Open live market board": "Fungua ubao wa soko", "Indicative crop price trend": "Mwelekeo wa bei za mazao", "Choose your role": "Chagua nafasi yako", "ShambaLink AI assistant": "Msaidizi wa ShambaLink AI", "Close assistant": "Funga msaidizi", "Send question": "Tuma swali" },
     "placeholder": { "Search produce…": "Tafuta mazao…", "Town, region or district": "Mji, mkoa au wilaya", "Ask a question…": "Uliza swali…" },
-    "alt": { "Farmer tending crops in a green field": "Mkulima akitunza mazao katika shamba la kijani", "Market partners coordinating a route": "Washirika wa soko wakiratibu njia", "Buyer checking produce supply": "Mnunuzi akikagua upatikanaji wa mazao", "Maize cobs in a field": "Magunzi ya mahindi shambani", "Rice grains and rice plants": "Punje za mpunga na mimea ya mpunga", "Cashew nuts in a bowl": "Korosho kwenye bakuli" }
+    "alt": { "Farmer tending crops in a green field": "Mkulima akitunza mazao katika shamba la kijani", "Market partners coordinating a route": "Washirika wa soko wakiratibu njia", "Buyer checking produce supply": "Mnunuzi akikagua upatikanaji wa mazao", "Maize cobs in a field": "Magunzi ya mahindi shambani", "Rice plants and grains spilling from a sack": "Mimea ya mpunga na punje zikimwagika kutoka kwenye gunia", "Cashew nuts in a bowl": "Korosho kwenye bakuli" }
   };
   const originalText = new WeakMap();
   function translatePage(language) {
