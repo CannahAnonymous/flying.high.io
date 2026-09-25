@@ -23,6 +23,8 @@ services:
         sync: false
       - key: TWILIO_TO_NUMBER
         value: +255741998751
+      - key: OTP_SECRET
+        sync: false
     disk:
       name: shambalink-data
       mountPath: /var/data

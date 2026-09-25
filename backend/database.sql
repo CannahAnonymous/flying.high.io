@@ -33,3 +33,13 @@ CREATE TABLE IF NOT EXISTS unanswered_questions (
   language TEXT NOT NULL CHECK (language IN ('en', 'sw')),
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
+
+CREATE TABLE IF NOT EXISTS users (
+  id UUID PRIMARY KEY,
+  name TEXT NOT NULL,
+  role TEXT NOT NULL CHECK (role IN ('farmer', 'agent', 'buyer')),
+  contact TEXT NOT NULL UNIQUE,
+  contact_type TEXT NOT NULL CHECK (contact_type IN ('email', 'phone')),
+  password_hash TEXT,
+  verified_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);

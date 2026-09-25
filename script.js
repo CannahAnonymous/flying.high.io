@@ -39,23 +39,26 @@
   const registrationGate = document.querySelector("#registration-gate");
   const services = document.querySelector("[data-services]");
   const registrationForm = document.querySelector("#registration-form");
-  const registrationKey = "shambalink-member";
+  const verificationForm = document.querySelector("#verification-form");
+  const registrationKey = "shambalink-member-v2";
+  let challengeId = "";
   function openServices() {
     if (registrationGate) registrationGate.hidden = true;
     if (services) services.hidden = false;
     window.scrollTo({ top: 0, left: 0, behavior: "auto" });
   }
   if (localStorage.getItem(registrationKey)) openServices();
-  registrationForm?.addEventListener("submit", (event) => {
+  registrationForm?.addEventListener("submit", async (event) => {
     event.preventDefault();
     const name = document.querySelector("#register-name");
-    const email = document.querySelector("#register-email");
+    const contact = document.querySelector("#register-contact");
     const password = document.querySelector("#register-password");
     const terms = document.querySelector("#register-terms");
     const status = document.querySelector("#registration-status");
+    const contactType = registrationForm.querySelector("input[name=contactType]:checked").value;
     let valid = true;
     [[name, "register-name-error", name.value.trim().length < 2],
-      [email, "register-email-error", !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())],
+      [contact, "register-contact-error", contactType === "phone" ? !/^\+?[1-9]\d{7,14}$/.test(contact.value.replace(/[^\d+]/g, "")) : !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact.value.trim())],
       [password, "register-password-error", password.value.length < 8],
       [terms, "register-terms-error", !terms.checked]].forEach(([field, errorId, invalid]) => {
       const error = document.querySelector(`#${errorId}`);
@@ -70,10 +73,47 @@
       status.classList.add("is-error");
       return;
     }
-    localStorage.setItem(registrationKey, JSON.stringify({ name: name.value.trim(), email: email.value.trim(), role: registrationForm.querySelector("input[name=role]:checked").value, registeredAt: new Date().toISOString() }));
-    status.classList.remove("is-error");
-    status.textContent = currentLanguage === "sw" ? "Akaunti yako iko tayari. Karibu ShambaLink." : "Your profile is ready. Welcome to ShambaLink.";
-    openServices();
+    try {
+      const response = await fetch(`${apiBase}/api/auth/request-code`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ contactType, contact: contact.value, role: registrationForm.querySelector("input[name=role]:checked").value }) });
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.error || "Verification is unavailable.");
+      challengeId = result.challengeId;
+      registrationForm.hidden = true;
+      verificationForm.hidden = false;
+      status.classList.remove("is-error");
+      status.textContent = currentLanguage === "sw" ? "Nambari ya uthibitisho imetumwa." : "A verification code has been sent.";
+      document.querySelector("#verification-code").focus();
+    } catch (error) {
+      status.textContent = error.message;
+      status.classList.add("is-error");
+    }
+  });
+  verificationForm?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const code = document.querySelector("#verification-code").value.trim();
+    const error = document.querySelector("#verification-code-error");
+    const status = document.querySelector("#registration-status");
+    if (!/^\d{6}$/.test(code)) { error.textContent = currentLanguage === "sw" ? "Ingiza tarakimu 6." : "Enter the 6-digit code."; return; }
+    try {
+      const verified = await fetch(`${apiBase}/api/auth/verify-code`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ challengeId, code }) });
+      const verifiedResult = await verified.json();
+      if (!verified.ok) throw new Error(verifiedResult.error || "Verification failed.");
+      const name = document.querySelector("#register-name").value.trim();
+      const role = registrationForm.querySelector("input[name=role]:checked").value;
+      const contact = document.querySelector("#register-contact").value.trim();
+      const password = document.querySelector("#register-password").value;
+      const created = await fetch(`${apiBase}/api/auth/register`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ verificationToken: verifiedResult.verificationToken, name, role, password }) });
+      const createdResult = await created.json();
+      if (!created.ok) throw new Error(createdResult.error || "Registration failed.");
+      localStorage.setItem(registrationKey, JSON.stringify({ id: createdResult.user.id, name, role, contact, registeredAt: new Date().toISOString() }));
+      status.textContent = currentLanguage === "sw" ? "Wasifu wako umethibitishwa. Karibu ShambaLink." : "Your profile is verified. Welcome to ShambaLink.";
+      openServices();
+    } catch (error) { status.textContent = error.message; status.classList.add("is-error"); }
+  });
+  document.querySelector("#verification-back")?.addEventListener("click", () => {
+    verificationForm.hidden = true;
+    registrationForm.hidden = false;
+    document.querySelector("#registration-status").textContent = "";
   });
 
   const search = document.querySelector("#produce-search");
