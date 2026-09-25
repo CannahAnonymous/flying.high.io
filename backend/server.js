@@ -26,7 +26,10 @@ const seedListings = [
 
 async function loadStore() {
   try {
-    return JSON.parse(await readFile(dataFile, "utf8"));
+    const store = JSON.parse(await readFile(dataFile, "utf8"));
+    const existingIds = new Set((store.listings || []).map((item) => item.id));
+    store.listings = [...(store.listings || []), ...seedListings.filter((item) => !existingIds.has(item.id))];
+    return store;
   } catch (error) {
     if (error.code !== "ENOENT") throw error;
     const store = { listings: seedListings, interests: [] };

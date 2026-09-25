@@ -30,8 +30,51 @@
   const filter = document.querySelector("#role-filter");
   const listings = [...document.querySelectorAll(".listing")];
   const empty = document.querySelector("#empty-listings");
+  const cropDetail = document.querySelector("#crop-detail");
+  let selectedCrop = null;
+  const cropCatalog = [
+    { crop: "Maize", localName: "Mahindi", location: "Iringa", quantity: "2.4 tonnes", priceTshPerKg: 1150, status: "Ready now", note: "Dry grain, bagged and sorted." },
+    { crop: "Rice", localName: "Mpunga", location: "Morogoro", quantity: "680 bags", priceTshPerKg: 2400, status: "Route forming", note: "Clean, locally milled grain." },
+    { crop: "Cassava", localName: "Muhogo", location: "Mtwara", quantity: "1.8 tonnes", priceTshPerKg: 850, status: "Ready now", note: "Fresh roots for local markets." },
+    { crop: "Beans", localName: "Maharage", location: "Kigoma", quantity: "640 kg", priceTshPerKg: 2100, status: "New listing", note: "Sorted red kidney beans." },
+    { crop: "Banana", localName: "Ndizi", location: "Kagera", quantity: "900 bunches", priceTshPerKg: 900, status: "Route forming", note: "Cooking bananas for collection." },
+    { crop: "Potato", localName: "Viazi", location: "Arusha", quantity: "3 tonnes", priceTshPerKg: 1250, status: "Ready now", note: "Washed table potatoes." },
+    { crop: "Sorghum", localName: "Mtama", location: "Dodoma", quantity: "1.2 tonnes", priceTshPerKg: 1050, status: "New listing", note: "Dry grain for food markets." },
+    { crop: "Millet", localName: "Ulezi", location: "Singida", quantity: "760 kg", priceTshPerKg: 1400, status: "Ready now", note: "Clean finger millet." },
+    { crop: "Tomato", localName: "Nyanya", location: "Morogoro", quantity: "320 crates", priceTshPerKg: 1300, status: "Route forming", note: "Fresh field tomatoes." },
+    { crop: "Onion", localName: "Vitunguu", location: "Manyara", quantity: "1.4 tonnes", priceTshPerKg: 1800, status: "New listing", note: "Cured red onions." },
+    { crop: "Sweet potato", localName: "Viazi vitamu", location: "Mara", quantity: "980 kg", priceTshPerKg: 900, status: "Ready now", note: "Fresh orange-fleshed roots." },
+    { crop: "Groundnut", localName: "Karanga", location: "Tabora", quantity: "520 kg", priceTshPerKg: 2200, status: "Route forming", note: "Shelled food-grade groundnuts." },
+    { crop: "Sesame", localName: "Ufuta", location: "Lindi", quantity: "430 kg", priceTshPerKg: 2600, status: "New listing", note: "Clean sesame for food markets." },
+    { crop: "Sunflower", localName: "Alizeti", location: "Singida", quantity: "1 tonne", priceTshPerKg: 1250, status: "Ready now", note: "Seed for oil and food processing." },
+    { crop: "Wheat", localName: "Ngano", location: "Arusha", quantity: "2 tonnes", priceTshPerKg: 1500, status: "Route forming", note: "Clean grain for milling." }
+  ];
+  function showCropDetail(term) {
+    const normalized = term.toLowerCase().trim();
+    const crop = cropCatalog.find((item) => `${item.crop} ${item.localName}`.toLowerCase().includes(normalized) || normalized.includes(item.crop.toLowerCase()) || normalized.includes(item.localName.toLowerCase()));
+    if (!crop || normalized.length < 2) { cropDetail.hidden = true; return; }
+    selectedCrop = crop;
+    const render = (item) => {
+      document.querySelector(".crop-detail-kicker").textContent = currentLanguage === "sw" ? "Zao lililochaguliwa" : "Selected crop";
+      document.querySelector(".crop-detail-grid div:nth-child(1) span").textContent = currentLanguage === "sw" ? "Soko" : "Market";
+      document.querySelector(".crop-detail-grid div:nth-child(2) span").textContent = currentLanguage === "sw" ? "Inapatikana" : "Available";
+      document.querySelector(".crop-detail-grid div:nth-child(3) span").textContent = currentLanguage === "sw" ? "Bei" : "Price";
+      document.querySelector("#crop-detail-title").textContent = `${item.crop} / ${item.localName}`;
+      document.querySelector("#crop-detail-status").textContent = item.status;
+      document.querySelector("#crop-detail-market").textContent = `${item.location}, Tanzania`;
+      document.querySelector("#crop-detail-quantity").textContent = item.quantity;
+      document.querySelector("#crop-detail-price").textContent = `TSh ${Number(item.priceTshPerKg).toLocaleString()} / kg`;
+      const note = item.note || item.description || "";
+      document.querySelector("#crop-detail-note").textContent = currentLanguage === "sw" ? `${note} Thibitisha bei ya mwisho kabla ya biashara.` : `${note} Verify the final negotiated price before trading.`;
+      cropDetail.hidden = false;
+    };
+    if (apiBase) {
+      fetch(`${apiBase}/api/listings?search=${encodeURIComponent(crop.crop)}`).then((response) => response.ok ? response.json() : Promise.reject()).then((data) => render(data.listings[0] || crop)).catch(() => render(crop));
+    } else render(crop);
+  }
   function filterListings() {
     const term = search.value.trim().toLowerCase();
+    showCropDetail(term);
     const role = filter.value;
     let visible = 0;
     listings.forEach((listing) => {
@@ -90,7 +133,7 @@
     "Join ShambaLink": "Jiunge na ShambaLink", "Your details are sent securely to the ShambaLink service.": "Taarifa zako zitatumwa kwa usalama kwenye huduma ya ShambaLink.",
     "Ask Shamba AI": "Uliza Shamba AI", "Shamba AI": "Shamba AI", "Ask about crops, roles, or how to use the market board.": "Uliza kuhusu mazao, nafasi au jinsi ya kutumia ubao wa soko.",
     "What grows in Tanzania?": "Nini hulimwa Tanzania?", "How do I list maize?": "Nitawekaje mahindi?", "Help me buy rice": "Nisaidie kununua mpunga", "Ask a question…": "Uliza swali…",
-    "Better routes for better harvests.": "Njia bora kwa mavuno bora.", "Food crops:": "Mazao ya chakula:", "Cassava / Muhogo": "Muhogo", "Beans / Maharage": "Maharage", "Banana / Ndizi": "Ndizi", "Potato / Viazi": "Viazi", "Sorghum / Mtama": "Mtama", "Millet / Ulezi": "Ulezi", "Tomato / Nyanya": "Nyanya", "Onion / Vitunguu": "Vitunguu", "Sweet potato / Viazi vitamu": "Viazi vitamu", "Groundnut / Karanga": "Karanga", "Sesame / Ufuta": "Ufuta", "Sunflower / Alizeti": "Alizeti", "Wheat / Ngano": "Ngano"
+    "Better routes for better harvests.": "Njia bora kwa mavuno bora.", "Food crops:": "Mazao ya chakula:", "Cassava / Muhogo": "Muhogo", "Beans / Maharage": "Maharage", "Banana / Ndizi": "Ndizi", "Potato / Viazi": "Viazi", "Sorghum / Mtama": "Mtama", "Millet / Ulezi": "Ulezi", "Tomato / Nyanya": "Nyanya", "Onion / Vitunguu": "Vitunguu", "Sweet potato / Viazi vitamu": "Viazi vitamu", "Groundnut / Karanga": "Karanga", "Sesame / Ufuta": "Ufuta", "Sunflower / Alizeti": "Alizeti", "Wheat / Ngano": "Ngano", "Selected crop": "Zao lililochaguliwa", "Market": "Soko", "Available": "Inapatikana", "Price": "Bei"
   };
   const translatedAttributes = {
     "aria-label": { "Primary navigation": "Menyu kuu", "Language selector": "Kichagua lugha", "Market snapshot": "Muhtasari wa soko", "Open live market board": "Fungua ubao wa soko", "Indicative crop price trend": "Mwelekeo wa bei za mazao", "Choose your role": "Chagua nafasi yako", "ShambaLink AI assistant": "Msaidizi wa ShambaLink AI", "Close assistant": "Funga msaidizi", "Send question": "Tuma swali" },
@@ -123,6 +166,7 @@
     currentLanguage = language;
     updateThemeControl();
     renderAssistantSuggestions();
+    if (selectedCrop) showCropDetail(selectedCrop.crop);
   }
   document.querySelectorAll(".language-button").forEach((button) => button.addEventListener("click", () => {
     document.querySelectorAll(".language-button").forEach((item) => item.classList.toggle("is-active", item === button));
