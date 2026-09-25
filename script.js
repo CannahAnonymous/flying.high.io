@@ -1,5 +1,21 @@
 (() => {
   const apiBase = (window.SHAMBALINK_API_URL || "").replace(/\/$/, "");
+  const themeNames = ["field", "night", "sunrise"];
+  let currentTheme = localStorage.getItem("shambalink-theme") || "field";
+  document.documentElement.dataset.theme = currentTheme === "field" ? "" : currentTheme;
+  const themeToggle = document.querySelector("#theme-toggle");
+  function updateThemeControl() {
+    const nextTheme = themeNames[(themeNames.indexOf(currentTheme) + 1) % themeNames.length];
+    const labels = currentLanguage === "sw" ? { field: "Mandhari", night: "Usiku", sunrise: "Machweo" } : { field: "Field", night: "Night", sunrise: "Sunrise" };
+    themeToggle?.setAttribute("aria-label", `${currentLanguage === "sw" ? "Badilisha mandhari" : "Change theme"}: ${labels[nextTheme]}`);
+    if (themeToggle) themeToggle.innerHTML = `◐ <span>${labels[currentTheme]}</span>`;
+  }
+  themeToggle?.addEventListener("click", () => {
+    currentTheme = themeNames[(themeNames.indexOf(currentTheme) + 1) % themeNames.length];
+    document.documentElement.dataset.theme = currentTheme === "field" ? "" : currentTheme;
+    localStorage.setItem("shambalink-theme", currentTheme);
+    updateThemeControl();
+  });
   const today = new Date();
   document.querySelector("#year").textContent = today.getFullYear();
   const menuToggle = document.querySelector(".menu-toggle");
@@ -98,6 +114,8 @@
     });
     document.title = language === "sw" ? "ShambaLink — Kutoka shambani hadi soko la haki" : "ShambaLink — From shamba to fair market";
     currentLanguage = language;
+    updateThemeControl();
+    renderAssistantSuggestions();
   }
   document.querySelectorAll(".language-button").forEach((button) => button.addEventListener("click", () => {
     document.querySelectorAll(".language-button").forEach((item) => item.classList.toggle("is-active", item === button));
@@ -159,12 +177,49 @@
   const assistantClose = document.querySelector("#assistant-close");
   const assistantInput = document.querySelector("#assistant-input");
   const assistantResponse = document.querySelector("#assistant-response");
+  const assistantSuggestions = document.querySelector(".assistant-suggestions");
+  const assistantQuestionBank = {
+    en: ["What grows in Tanzania?", "How do I list maize?", "Help me buy rice", "How can I find a buyer?", "What does an agent do?", "How should I store maize?", "How do I prepare cashew for sale?", "Which region grows the most rice?"],
+    sw: ["Nini hulimwa Tanzania?", "Nitawekaje mahindi?", "Nisaidie kununua mpunga", "Nitampataje mnunuzi?", "Wakala anafanya nini?", "Nahifadhije mahindi?", "Ninaandaaje korosho kwa kuuza?", "Ni mkoa gani hulima mpunga zaidi?"]
+  };
+  function renderAssistantSuggestions() {
+    if (!assistantSuggestions) return;
+    assistantSuggestions.innerHTML = assistantQuestionBank[currentLanguage].map((question) => `<button type="button">${question}</button>`).join("");
+    assistantSuggestions.querySelectorAll("button").forEach((button) => button.addEventListener("click", () => {
+      assistantInput.value = button.textContent;
+      const answer = answerAssistant(button.textContent);
+      if (answer) assistantResponse.textContent = answer;
+    }));
+  }
+  function submitUnansweredQuestion(question) {
+    if (!apiBase) return Promise.reject(new Error("Service unavailable"));
+    return fetch(`${apiBase}/api/questions`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ question, language: currentLanguage }) }).then((response) => {
+      if (!response.ok) throw new Error("Could not record question");
+      return response.json();
+    });
+  }
   function answerAssistant(question) {
     const text = question.toLowerCase();
     if (text.includes("tanzania") || text.includes("crop") || text.includes("zao")) return currentLanguage === "sw" ? "Tanzania hulima mahindi, mpunga, mihogo, maharage, kahawa, korosho, alizeti, ufuta, ndizi na nyanya. Anza kwa kuchagua mkoa na muda wa mavuno." : "Tanzania grows maize, rice, cassava, beans, coffee, cashew, sunflower, sesame, bananas and tomatoes. Start by choosing a region and harvest timing.";
     if (text.includes("maize") || text.includes("mahindi")) return currentLanguage === "sw" ? "Ili kutangaza mahindi, chagua Mkulima, ongeza jina, mawasiliano, eneo, kiasi na muda wa mavuno. Wakala anaweza kusaidia kuratibu ukusanyaji." : "To list maize, choose Farmer, add your name, contact, location, quantity and harvest timing. An agent can then help coordinate collection.";
     if (text.includes("rice") || text.includes("mpunga") || text.includes("buy")) return currentLanguage === "sw" ? "Wanunuzi wanaweza kutafuta kwenye ubao wa soko, kuchuja kwa wakala au mkulima, kisha kuomba maelezo ya zao linalolingana na mahitaji yao." : "Buyers can search the market board, filter by agent or farmer, then request details from the listing that matches their quantity and pickup needs.";
-    return currentLanguage === "sw" ? "Naweza kusaidia kuhusu mazao ya Tanzania, kutangaza mavuno, kutafuta mazao au kuchagua nafasi sahihi ya ShambaLink." : "I can help with Tanzanian crops, listing a harvest, finding produce, or choosing the right ShambaLink role.";
+    if (text.includes("buyer") || text.includes("mnunuzi")) return currentLanguage === "sw" ? "Ili kupata mnunuzi, weka zao, kiasi, eneo na muda wa kuchukua kwenye ubao wa soko. Wakala anaweza kusaidia kuunganisha mahitaji na usambazaji." : "To find a buyer, publish the crop, quantity, location, and pickup timing on the market board. An agent can help match demand with supply.";
+    if (text.includes("agent") || text.includes("wakala")) return currentLanguage === "sw" ? "Wakala huratibu ukusanyaji, usafiri na mawasiliano kati ya mkulima na mnunuzi. Chagua nafasi ya Wakala ili kujiunga na mtandao." : "Agents coordinate collection, transport, and communication between farmers and buyers. Choose the Agent role to join the network.";
+    if (text.includes("store") || text.includes("hifadhi")) return currentLanguage === "sw" ? "Hifadhi mahindi yaliyokauka kwenye mifuko safi, sehemu kavu yenye hewa, na juu ya pallet. Kagua mara kwa mara dhidi ya unyevu na wadudu." : "Store dry maize in clean bags in a cool, ventilated place above the floor. Check regularly for moisture and pests.";
+    if (text.includes("cashew") || text.includes("korosho")) return currentLanguage === "sw" ? "Korosho zikauke vizuri, zichambuliwe, na zihifadhiwe sehemu kavu kabla ya kuuzwa. Ongeza eneo na kiasi ili wanunuzi wapate maelezo sahihi." : "Dry and grade cashews carefully, then keep them in a dry place before selling. Add location and quantity so buyers can assess the listing.";
+    if (text.includes("region") || text.includes("mkoa")) return currentLanguage === "sw" ? "Mahindi hupatikana kwa wingi Iringa na Ruvuma, mpunga Morogoro na Mbeya, na korosho Mtwara na Lindi. Upatikanaji hutegemea msimu." : "Maize is widely grown in Iringa and Ruvuma, rice in Morogoro and Mbeya, and cashew in Mtwara and Lindi. Availability depends on the season.";
+    const fallback = currentLanguage === "sw" ? "Bado sijawa na jibu la swali hili. Tuma swali lako kwa timu ya ShambaLink ili tulitafutie jibu." : "I don’t have a ready answer for that yet. Send the question to the ShambaLink team and we’ll add the answer.";
+    assistantResponse.innerHTML = `<div class="assistant-fallback"><p>${fallback}</p><button type="button" data-send-question>${currentLanguage === "sw" ? "Tuma kwa timu" : "Send to the team"}</button></div>`;
+    assistantResponse.querySelector("[data-send-question]").addEventListener("click", (event) => {
+      event.currentTarget.disabled = true;
+      submitUnansweredQuestion(question).then(() => {
+        event.currentTarget.textContent = currentLanguage === "sw" ? "Limerekodiwa ✓" : "Question recorded ✓";
+      }).catch(() => {
+        event.currentTarget.disabled = false;
+        event.currentTarget.textContent = currentLanguage === "sw" ? "Jaribu tena" : "Try again";
+      });
+    });
+    return "";
   }
   assistantToggle?.addEventListener("click", () => {
     const open = assistantToggle.getAttribute("aria-expanded") === "true";
@@ -173,12 +228,10 @@
     if (!open) assistantInput.focus();
   });
   assistantClose?.addEventListener("click", () => { assistantPanel.hidden = true; assistantToggle.setAttribute("aria-expanded", "false"); });
-  document.querySelectorAll(".assistant-suggestions button").forEach((button) => button.addEventListener("click", () => {
-    assistantInput.value = button.textContent;
-    assistantResponse.textContent = answerAssistant(button.textContent);
-  }));
+  renderAssistantSuggestions();
   document.querySelector("#assistant-form")?.addEventListener("submit", (event) => {
     event.preventDefault();
-    assistantResponse.textContent = answerAssistant(assistantInput.value);
+    const answer = answerAssistant(assistantInput.value);
+    if (answer) assistantResponse.textContent = answer;
   });
 })();

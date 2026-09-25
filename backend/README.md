@@ -5,6 +5,7 @@ This small Node.js API provides the first persistent backend for the static site
 - `GET /api/health` — service health check
 - `GET /api/listings?search=maize&role=farmer` — marketplace listings
 - `POST /api/interests` — stores farmer, agent, or buyer onboarding interest
+- `POST /api/questions` — records an unanswered AI question for the ShambaLink team
 
 ## Run locally
 

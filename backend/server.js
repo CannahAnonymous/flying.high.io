@@ -74,6 +74,17 @@ const server = createServer(async (request, response) => {
       const listings = store.listings.filter((item) => (!role || role === "all" || item.role === role) && (!search || `${item.crop} ${item.localName} ${item.location}`.toLowerCase().includes(search)));
       return send(response, 200, { listings });
     }
+    if (request.method === "POST" && url.pathname === "/api/questions") {
+      const body = await readBody(request);
+      const question = typeof body.question === "string" ? body.question.trim() : "";
+      const language = body.language === "sw" ? "sw" : "en";
+      if (question.length < 3 || question.length > 500) return send(response, 422, { error: "Question must be between 3 and 500 characters." });
+      const store = await loadStore();
+      const unanswered = { id: randomUUID(), question, language, createdAt: new Date().toISOString() };
+      store.questions = [...(store.questions || []), unanswered];
+      await saveStore(store);
+      return send(response, 201, { question: { id: unanswered.id, createdAt: unanswered.createdAt } });
+    }
     if (request.method === "POST" && url.pathname === "/api/interests") {
       const validation = validateInterest(await readBody(request));
       if (validation.error) return send(response, 422, { error: validation.error });
