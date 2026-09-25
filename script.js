@@ -1,4 +1,5 @@
 (() => {
+  const apiBase = (window.SHAMBALINK_API_URL || "").replace(/\/$/, "");
   const today = new Date();
   document.querySelector("#year").textContent = today.getFullYear();
   const menuToggle = document.querySelector(".menu-toggle");
@@ -104,9 +105,21 @@
     if (!valid) { joinForm.querySelector("input:invalid, input:not(:placeholder-shown)")?.focus(); return; }
     const labels = { farmer: "farmer", agent: "agent", buyer: "buyer" };
     const success = document.querySelector("#join-success");
-    success.hidden = false;
-    success.textContent = `Thanks—your ${labels[selectedRole]} interest is saved for this demo. We’ll show the next step here when onboarding is connected.`;
-    joinForm.querySelector("button[type=submit]").disabled = true;
+    const payload = { role: selectedRole, name: document.querySelector("#join-name").value.trim(), contact: document.querySelector("#join-contact").value.trim(), location: document.querySelector("#join-location").value.trim() };
+    const saveInterest = apiBase
+      ? fetch(`${apiBase}/api/interests`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) }).then((response) => {
+        if (!response.ok) throw new Error("The service could not save your interest.");
+        return response.json();
+      })
+      : Promise.resolve();
+    saveInterest.then(() => {
+      success.hidden = false;
+      success.textContent = apiBase ? `Thanks—your ${labels[selectedRole]} interest is now in the ShambaLink network.` : `Thanks—your ${labels[selectedRole]} interest is saved for this demo. We’ll show the next step here when onboarding is connected.`;
+      joinForm.querySelector("button[type=submit]").disabled = true;
+    }).catch(() => {
+      success.hidden = false;
+      success.textContent = "We could not reach ShambaLink right now. Please try again.";
+    });
   });
 
   const assistantToggle = document.querySelector("#assistant-toggle");

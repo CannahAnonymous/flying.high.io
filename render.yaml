@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: shambalink-api
+    runtime: node
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    plan: free
+    envVars:
+      - key: ALLOWED_ORIGIN
+        value: https://cannahanonymous.github.io
+      - key: DATA_FILE
+        value: /var/data/store.json
+    disk:
+      name: shambalink-data
+      mountPath: /var/data
+      sizeGB: 1

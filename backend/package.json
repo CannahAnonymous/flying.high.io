@@ -1,0 +1,14 @@
+{
+  "name": "shambalink-api",
+  "version": "1.0.0",
+  "private": true,
+  "description": "ShambaLink marketplace API",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
