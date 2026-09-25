@@ -1,5 +1,14 @@
 (() => {
   const apiBase = (window.SHAMBALINK_API_URL || "").replace(/\/$/, "");
+  if (apiBase && !sessionStorage.getItem("shambalink-visit-recorded")) {
+    fetch(`${apiBase}/api/visits`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ path: window.location.pathname, referrer: document.referrer })
+    }).then((response) => {
+      if (response.ok) sessionStorage.setItem("shambalink-visit-recorded", "true");
+    }).catch(() => {});
+  }
   const themeNames = ["field", "night", "sunrise"];
   let currentTheme = localStorage.getItem("shambalink-theme") || "field";
   document.documentElement.dataset.theme = currentTheme === "field" ? "" : currentTheme;
@@ -34,6 +43,7 @@
   function openServices() {
     if (registrationGate) registrationGate.hidden = true;
     if (services) services.hidden = false;
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
   }
   if (localStorage.getItem(registrationKey)) openServices();
   registrationForm?.addEventListener("submit", (event) => {
@@ -64,7 +74,6 @@
     status.classList.remove("is-error");
     status.textContent = currentLanguage === "sw" ? "Akaunti yako iko tayari. Karibu ShambaLink." : "Your profile is ready. Welcome to ShambaLink.";
     openServices();
-    document.querySelector("#main-content")?.focus();
   });
 
   const search = document.querySelector("#produce-search");

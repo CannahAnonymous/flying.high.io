@@ -6,6 +6,8 @@ This small Node.js API provides the first persistent backend for the static site
 - `GET /api/listings?search=maize&role=farmer` — marketplace listings
 - `POST /api/interests` — stores farmer, agent, or buyer onboarding interest
 - `POST /api/questions` — records an unanswered AI question for the ShambaLink team
+- `POST /api/visits` — records an anonymous page visit
+- `GET /api/visits` — returns recent visits for the owner with `Authorization: Bearer $ADMIN_TOKEN`
 
 ## Run locally
 
@@ -22,11 +24,12 @@ psql "$DATABASE_URL" -f database.sql
 ```
 
 Set `ALLOWED_ORIGIN` to the exact frontend origin rather than `*`.
+Set a long random `ADMIN_TOKEN` to protect the owner visit log. Set `VISIT_WEBHOOK_URL` to an HTTPS webhook for an external notification on each new visit. The webhook receives only the page path, referrer, language, ID, and timestamp.
 
 The current frontend remains usable without an API. To connect it, set `window.SHAMBALINK_API_URL` before `script.js` loads, for example:
 
 ```html
-<script>window.SHAMBALINK_API_URL = "https://api.example.com";</script>
+<script>window.SHAMBALINK_API_URL = "https://api.Shambalink.com";</script>
 <script src="script.js"></script>
 ```
 
