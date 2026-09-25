@@ -111,14 +111,14 @@
         if (!response.ok) throw new Error("The service could not save your interest.");
         return response.json();
       })
-      : Promise.resolve();
+      : Promise.reject(new Error("ShambaLink service is not configured."));
     saveInterest.then(() => {
       success.hidden = false;
-      success.textContent = apiBase ? `Thanks—your ${labels[selectedRole]} interest is now in the ShambaLink network.` : `Thanks—your ${labels[selectedRole]} interest is saved for this demo. We’ll show the next step here when onboarding is connected.`;
+      success.textContent = `Thanks—your ${labels[selectedRole]} interest is now in the ShambaLink network.`;
       joinForm.querySelector("button[type=submit]").disabled = true;
     }).catch(() => {
       success.hidden = false;
-      success.textContent = "We could not reach ShambaLink right now. Please try again.";
+      success.textContent = "ShambaLink is temporarily unavailable. Please try again shortly.";
     });
   });
 
