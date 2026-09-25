@@ -25,6 +25,7 @@ psql "$DATABASE_URL" -f database.sql
 
 Set `ALLOWED_ORIGIN` to the exact frontend origin rather than `*`.
 Set a long random `ADMIN_TOKEN` to protect the owner visit log. Set `VISIT_WEBHOOK_URL` to an HTTPS webhook for an external notification on each new visit. The webhook receives only the page path, referrer, language, ID, and timestamp.
+For SMS alerts when someone submits the Join ShambaLink form, configure Twilio with `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, and a verified `TWILIO_FROM_NUMBER`. `TWILIO_TO_NUMBER` defaults to `+255741998751`. Keep these values only in the backend host's secret environment settings; never place them in frontend JavaScript.
 
 The current frontend remains usable without an API. To connect it, set `window.SHAMBALINK_API_URL` before `script.js` loads, for example:
 

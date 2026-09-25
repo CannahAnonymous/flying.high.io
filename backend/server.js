@@ -11,6 +11,10 @@ const dataFile = process.env.DATA_FILE || join(root, "data", "store.json");
 const allowedOrigin = process.env.ALLOWED_ORIGIN || "*";
 const adminToken = process.env.ADMIN_TOKEN || "";
 const visitWebhookUrl = process.env.VISIT_WEBHOOK_URL || "";
+const twilioAccountSid = process.env.TWILIO_ACCOUNT_SID || "";
+const twilioAuthToken = process.env.TWILIO_AUTH_TOKEN || "";
+const twilioFromNumber = process.env.TWILIO_FROM_NUMBER || "";
+const twilioToNumber = process.env.TWILIO_TO_NUMBER || "+255741998751";
 const seedListings = [
   { id: "maize-iringa", crop: "Maize", localName: "Mahindi", role: "farmer", location: "Iringa", distanceKm: 24, quantity: "2.4 tonnes", priceTshPerKg: 1150, status: "Ready now", description: "Dry grain, bagged and sorted" },
   { id: "rice-morogoro", crop: "Rice", localName: "Mpunga", role: "agent", location: "Morogoro", distanceKm: 41, quantity: "680 bags", priceTshPerKg: 2400, status: "Route forming", description: "Clean, locally milled grain" },
@@ -60,6 +64,27 @@ function notifyVisit(visit) {
 
 function isAdmin(request) {
   return Boolean(adminToken && request.headers.authorization === `Bearer ${adminToken}`);
+}
+
+function notifyInterestBySms(interest) {
+  if (!twilioAccountSid && !twilioAuthToken && !twilioFromNumber) return;
+  if (!twilioAccountSid || !twilioAuthToken || !twilioFromNumber) {
+    throw new Error("SMS notification requires TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, and TWILIO_FROM_NUMBER");
+  }
+  const target = new URL(`https://api.twilio.com/2010-04-01/Accounts/${encodeURIComponent(twilioAccountSid)}/Messages.json`);
+  const message = `New ShambaLink ${interest.role} joined: ${interest.name}, ${interest.location}. Contact: ${interest.contact}`;
+  const body = new URLSearchParams({ To: twilioToNumber, From: twilioFromNumber, Body: message }).toString();
+  const request = httpsRequest(target, {
+    method: "POST",
+    headers: {
+      Authorization: `Basic ${Buffer.from(`${twilioAccountSid}:${twilioAuthToken}`).toString("base64")}`,
+      "Content-Type": "application/x-www-form-urlencoded",
+      "Content-Length": Buffer.byteLength(body)
+    }
+  });
+  request.on("error", (error) => console.error("SMS notification failed:", error.message));
+  request.write(body);
+  request.end();
 }
 
 function send(response, status, body) {
@@ -143,6 +168,7 @@ const server = createServer(async (request, response) => {
       const interest = { id: randomUUID(), ...validation.value, createdAt: new Date().toISOString() };
       store.interests.push(interest);
       await saveStore(store);
+      try { notifyInterestBySms(interest); } catch (error) { console.error(error); }
       return send(response, 201, { interest: { id: interest.id, role: interest.role, createdAt: interest.createdAt } });
     }
     return send(response, 404, { error: "Route not found" });

@@ -15,6 +15,14 @@ services:
         sync: false
       - key: VISIT_WEBHOOK_URL
         sync: false
+      - key: TWILIO_ACCOUNT_SID
+        sync: false
+      - key: TWILIO_AUTH_TOKEN
+        sync: false
+      - key: TWILIO_FROM_NUMBER
+        sync: false
+      - key: TWILIO_TO_NUMBER
+        value: +255741998751
     disk:
       name: shambalink-data
       mountPath: /var/data
