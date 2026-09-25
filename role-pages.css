@@ -1,0 +1,26 @@
+.role-page{background:var(--paper)}
+.role-hero{min-height:650px;padding:150px 0 80px;color:#fff;display:flex;align-items:center;background:var(--leaf)}
+.farmer-hero{background:linear-gradient(115deg,rgba(23,61,42,.96),rgba(40,82,60,.78)),url("farmer-ribbon.jpeg") center/cover}
+.buyer-hero{background:linear-gradient(115deg,rgba(40,82,60,.96),rgba(40,82,60,.58)),url("https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1600&q=80") center/cover}
+.agent-hero{background:linear-gradient(115deg,rgba(23,61,42,.96),rgba(40,82,60,.58)),url("https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1600&q=80") center/cover}
+.about-hero{background:linear-gradient(115deg,rgba(23,61,42,.98),rgba(40,82,60,.82))}
+.role-hero-inner{display:grid;grid-template-columns:minmax(0,1fr) 360px;align-items:center;gap:9vw}
+.role-hero h1{font-size:clamp(3.6rem,7vw,6.4rem);margin-bottom:24px}
+.role-hero .hero-lede{max-width:530px;margin-bottom:30px}
+.role-hero-image{width:100%;height:360px;object-fit:cover;border:10px solid rgba(243,240,229,.2);box-shadow:0 22px 55px rgba(10,25,18,.25);transform:rotate(2deg)}
+.role-content{display:grid;grid-template-columns:.85fr 1.15fr;gap:10vw;align-items:start}
+.role-content .section-heading h2{font-size:clamp(3rem,5vw,5rem)}
+.role-benefits{display:grid;gap:1px;background:var(--line)}
+.role-benefits article{background:var(--paper);padding:26px 28px}
+.role-benefits article span{font-size:11px;color:var(--moss);font-weight:700}
+.role-benefits h3{font:600 27px var(--serif);margin:18px 0 5px}
+.role-benefits p{max-width:420px;margin:0;color:#4d5849}
+.role-cta{background:var(--gold)}
+.role-cta h2{font-size:clamp(3rem,5vw,5rem);margin-bottom:28px}
+.about-orbit{width:330px;height:330px;border:1px solid rgba(243,240,229,.45);border-radius:50%;display:grid;place-items:center;position:relative;color:#fff}
+.about-orbit strong{text-align:center;font:600 36px/.9 var(--serif)}
+.about-orbit span{position:absolute;padding:9px 13px;background:var(--gold);color:var(--ink);font-size:11px;font-weight:700}
+.about-orbit span:nth-child(1){top:8px;left:50%;transform:translateX(-50%)}
+.about-orbit span:nth-child(2){bottom:42px;left:-12px}
+.about-orbit span:nth-child(3){bottom:42px;right:-12px}
+@media (max-width:800px){.role-hero{padding:125px 0 70px}.role-hero-inner,.role-content{display:block}.role-hero-image{height:260px;margin-top:48px}.role-content .section-heading{margin-bottom:48px}.about-orbit{margin:48px auto 0;width:270px;height:270px}}

@@ -17,7 +17,8 @@
     updateThemeControl();
   });
   const today = new Date();
-  document.querySelector("#year").textContent = today.getFullYear();
+  const year = document.querySelector("#year");
+  if (year) year.textContent = today.getFullYear();
   const menuToggle = document.querySelector(".menu-toggle");
   const nav = document.querySelector("#site-nav");
   menuToggle?.addEventListener("click", () => {
@@ -31,8 +32,8 @@
   const registrationForm = document.querySelector("#registration-form");
   const registrationKey = "shambalink-member";
   function openServices() {
-    registrationGate.hidden = true;
-    services.hidden = false;
+    if (registrationGate) registrationGate.hidden = true;
+    if (services) services.hidden = false;
   }
   if (localStorage.getItem(registrationKey)) openServices();
   registrationForm?.addEventListener("submit", (event) => {
